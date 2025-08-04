@@ -1,25 +1,24 @@
+using btrade.webapi.Configurations;
+using btrade.webapi.Middlewares;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration
+    .AddJsonFile("appsettings.json", false, true)
+    .AddJsonFile($"appsettings.{Environment.MachineName}.json", true, true);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration)
+    .AddPresentation(builder.Configuration);
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app
+    .UseSwagger()
+    .UseSwaggerUI()
+    .UseHttpsRedirection()
+    .UseAuthentication()
+    .UseAuthorization()
+    .UseCors("corsapp")
+    .UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();
-
 app.Run();
