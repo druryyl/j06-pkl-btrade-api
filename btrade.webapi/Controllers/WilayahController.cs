@@ -24,7 +24,7 @@ namespace btrade.webapi.Controllers
             return Ok(new JSendOk(response));
         }
 
-        [HttpPost("SyncData")]
+        [HttpPost]
         public async Task<IActionResult> SyncData(WilayahSyncCommand cmd)
         {
             var response = await _mediator.Send(cmd);
