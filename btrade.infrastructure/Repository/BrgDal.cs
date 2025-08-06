@@ -24,7 +24,7 @@ public class BrgDal : IBrgDal
         const string sql = @"
             INSERT INTO BTRADE_Brg(
                 BrgId, BrgCode, BrgName, KategoriName, 
-                SatBesar, SatKecil, Konversi, HrgSat, Stok
+                SatBesar, SatKecil, Konversi, HrgSat, Stok)
             VALUES (
                 @BrgId, @BrgCode, @BrgName, @KategoriName, 
                 @SatBesar, @SatKecil, @Konversi, @HrgSat, @Stok)";
@@ -48,7 +48,7 @@ public class BrgDal : IBrgDal
     {
         const string sql = @"
             UPDATE
-                BTRADE_Brg(
+                BTRADE_Brg
             SET
                 BrgCode = @BrgCode, 
                 BrgName = @BrgName, 
@@ -57,7 +57,7 @@ public class BrgDal : IBrgDal
                 SatKecil = @SatKecil, 
                 Konversi = @Konversi, 
                 HrgSat = @HrgSat, 
-                Stok = @Stok,
+                Stok = @Stok
             WHERE
                 BrgId = @BrgId";
 
@@ -80,7 +80,7 @@ public class BrgDal : IBrgDal
     {
         const string sql = @"
             DELETE FROM
-                BTRADE_Brg(
+                BTRADE_Brg
             WHERE
                 BrgId = @BrgId";
 
@@ -132,3 +132,30 @@ public class BrgDal : IBrgDal
         return MayBe.From(conn.Read<BrgType>(sql));
     }
 }
+
+//public class BrgDalTest
+//{
+//    private readonly BrgDal _sut;
+
+//    public void UT1_InsertTest()
+//    {
+//        // Arrange
+//        var model = new BrgType
+//        {
+//            BrgId = "BRG001",
+//            BrgCode = "BC001",
+//            BrgName = "Barang 1",
+//            KategoriName = "Kategori A",
+//            SatBesar = "PCS",
+//            SatKecil = "BOX",
+//            Konversi = 10,
+//            HrgSat = 100.00m,
+//            Stok = 50
+//        };
+//        // Act
+//        _sut.Insert(model);
+//        // Assert
+//        var result = _sut.GetData(new BrgKey { BrgId = model.BrgId });
+//        Assert.IsTrue(result.HasValue);
+//    }
+//}

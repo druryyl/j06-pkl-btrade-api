@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace btrade.domain.Model;
 
 public record CustomerType(string CustomerId, string CustomerCode,
-    string CustomerName, string Address, string Wilayah) : ICustomerKey;
+    string CustomerName, string Alamat, string Wilayah) : ICustomerKey;
 
 public interface ICustomerKey
 {

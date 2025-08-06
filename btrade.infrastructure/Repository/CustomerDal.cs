@@ -5,13 +5,8 @@ using Dapper;
 using Microsoft.Extensions.Options;
 using Nuna.Lib.DataAccessHelper;
 using Nuna.Lib.PatternHelper;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace btrade.infrastructure.Repository;
 
@@ -28,15 +23,15 @@ public class CustomerDal : ICustomerDal
     {
         const string sql = @"
             INSERT INTO BTRADE_Customer(
-                CustomerId, CustomerCode, CustomerName, Address, Wilayah
-            ) VALUES (
-                @CustomerId, @CustomerCode, @CustomerName, @Address, @Wilayah)";
+                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah)
+            VALUES (
+                @CustomerId, @CustomerCode, @CustomerName, @Alamat, @Wilayah)";
 
         var dp = new DynamicParameters();
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
         dp.AddParam("@CustomerCode", model.CustomerCode, SqlDbType.VarChar);
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
-        dp.AddParam("@Address", model.Address, SqlDbType.VarChar);
+        dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@Wilayah", model.Wilayah, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
@@ -51,7 +46,7 @@ public class CustomerDal : ICustomerDal
             SET
                 CustomerCode = @CustomerCode,
                 CustomerName = @CustomerName,
-                Address = @Address,
+                Alamat = @Alamat,
                 Wilayah = @Wilayah
             WHERE
                 CustomerId = @CustomerId";
@@ -60,7 +55,7 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
         dp.AddParam("@CustomerCode", model.CustomerCode, SqlDbType.VarChar);
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
-        dp.AddParam("@Address", model.Address, SqlDbType.VarChar);
+        dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@Wilayah", model.Wilayah, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
@@ -97,7 +92,7 @@ public class CustomerDal : ICustomerDal
     {
         const string sql = @"
             SELECT
-                CustomerId, CustomerCode, CustomerName, Address, Wilayah
+                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah
             FROM
                 BTRADE_Customer
             WHERE
@@ -114,7 +109,7 @@ public class CustomerDal : ICustomerDal
     {
         const string sql = @"
             SELECT
-                CustomerId, CustomerCode, CustomerName, Address, Wilayah
+                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah
             FROM
                 BTRADE_Customer";
 
