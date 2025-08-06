@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[BTRADE_Customer]
+(
+    CustomerId VARCHAR(6) NOT NULL CONSTRAINT DF_BTRADE_Customer_CustomerId DEFAULT(''), 
+    CustomerCode VARCHAR(10) NOT NULL CONSTRAINT DF_BTRADE_Customer_CustomerCode DEFAULT(''),
+    CustomerName VARCHAR(50) NOT NULL CONSTRAINT DF_BTRADE_Customer_CustomerName DEFAULT(''), 
+    Alamat VARCHAR(60) NOT NULL CONSTRAINT DF_BTRADE_Customer_Alamat DEFAULT(''), 
+    Wilayah VARCHAR(20) NOT NULL CONSTRAINT DF_BTRADE_Customer_Wilayah DEFAULT('')
+
+    CONSTRAINT PK_BTRADE_Customer PRIMARY KEY CLUSTERED (CustomerId ASC)
+)

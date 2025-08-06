@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\btrade.domain\btrade.domain.csproj" />
+  </ItemGroup>
+
 </Project>
