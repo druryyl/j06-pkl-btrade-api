@@ -62,5 +62,7 @@
     <Build Include="InventoryContext\BTRADE_Brg.sql" />
     <Build Include="InventoryContext\BTRADE_Customer.sql" />
     <Build Include="InventoryContext\BTRADE_SalesPerson.sql" />
+    <Build Include="InventoryContext\BTRADE_Kategori.sql" />
+    <Build Include="InventoryContext\BTRADE_Wilayah.sql" />
   </ItemGroup>
 </Project>
