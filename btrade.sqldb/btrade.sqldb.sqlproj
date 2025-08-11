@@ -56,13 +56,17 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="InventoryContext" />
+    <Folder Include="InventoryContext\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="InventoryContext\BTRADE_Brg.sql" />
     <Build Include="InventoryContext\BTRADE_Customer.sql" />
+    <Build Include="InventoryContext\BTRADE_Faktur.sql" />
+    <Build Include="InventoryContext\BTRADE_FakturItem.sql" />
     <Build Include="InventoryContext\BTRADE_SalesPerson.sql" />
     <Build Include="InventoryContext\BTRADE_Kategori.sql" />
     <Build Include="InventoryContext\BTRADE_Wilayah.sql" />
+    <Build Include="InventoryContext\BTRADE_Order.sql" />
+    <Build Include="InventoryContext\BTRADE_OrderItem.sql" />
   </ItemGroup>
 </Project>
