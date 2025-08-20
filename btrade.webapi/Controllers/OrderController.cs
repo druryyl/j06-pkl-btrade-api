@@ -25,7 +25,7 @@ namespace btrade.webapi.Controllers
         }
 
         [HttpGet]
-        [Route("incremental/{tgl1}/{tgl2})")]
+        [Route("incremental/{tgl1}/{tgl2}")]
         public async Task<IActionResult> IncrementalDownload(string tgl1, string tgl2)
         {
             var query = new OrderIncrementalDownloadQuery(tgl1, tgl2);

@@ -17,8 +17,13 @@ namespace btrade.domain.Model
         string SatBesar,
         int QtyKecil,
         string SatKecil,
+        int QtyBonus,
         int Konversi,
         decimal UnitPrice,
+        decimal Disc1,
+        decimal Disc2,
+        decimal Disc3,
+        decimal Disc4,
         decimal LineTotal
     ) : IOrderKey;
 }

@@ -38,8 +38,13 @@ namespace btrade.infrastructure.Repository
             bcp.AddMap("SatBesar","SatBesar");
             bcp.AddMap("QtyKecil","QtyKecil");
             bcp.AddMap("SatKecil","SatKecil");
+            bcp.AddMap("QtyBonus","QtyBonus");
             bcp.AddMap("Konversi","Konversi");
             bcp.AddMap("UnitPrice","UnitPrice");
+            bcp.AddMap("Disc1","Disc1");
+            bcp.AddMap("Disc2","Disc2");
+            bcp.AddMap("Disc3","Disc3");
+            bcp.AddMap("Disc4","Disc4");
             bcp.AddMap("LineTotal", "LineTotal");
 
             var fetched = listModel.ToList();
@@ -65,8 +70,8 @@ namespace btrade.infrastructure.Repository
             const string sql = @"
                 SELECT 
                     OrderId, NoUrut, BrgId, BrgCode, BrgName, KategoriName, 
-                    QtyBesar, SatBesar, QtyKecil, SatKecil, Konversi, 
-                    UnitPrice, LineTotal
+                    QtyBesar, SatBesar, QtyKecil, SatKecil, QtyBonus,
+                    Konversi,  UnitPrice, Disc1, Disc2, Disc3, Disc4, LineTotal
                 FROM BTRADE_OrderItem
                 WHERE OrderId = @OrderId";
 
