@@ -30,10 +30,10 @@ namespace btrade.infrastructure.Repository
             const string sql = @"
             INSERT INTO BTRADE_Order(
                 OrderId, OrderLocalId, CustomerId, CustomerCode, CustomerName, CustomerAddress,
-                OrderDate, SalesId, SalesName, TotalAmount, UserEmail, StatusSync, FakturCode)
+                OrderDate, SalesId, SalesName, TotalAmount, UserEmail, StatusSync, FakturCode, OrderNote)
             VALUES (
                 @OrderId, @OrderLocalId, @CustomerId, @CustomerCode, @CustomerName, @CustomerAddress,
-                @OrderDate, @SalesId, @SalesName, @TotalAmount, @UserEmail, @StatusSync, @FakturCode)";
+                @OrderDate, @SalesId, @SalesName, @TotalAmount, @UserEmail, @StatusSync, @FakturCode, @OrderNote)";
 
             var dp = new DynamicParameters();
             dp.AddParam("@OrderId", model.OrderId, SqlDbType.VarChar);
@@ -49,6 +49,7 @@ namespace btrade.infrastructure.Repository
             dp.AddParam("@UserEmail", model.UserEmail, SqlDbType.VarChar);
             dp.AddParam("@StatusSync", model.StatusSync, SqlDbType.VarChar);
             dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);
+            dp.AddParam("@OrderNote", model.OrderNote, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -71,7 +72,8 @@ namespace btrade.infrastructure.Repository
                 TotalAmount = @TotalAmount,
                 UserEmail = @UserEmail,
                 StatusSync = @StatusSync,
-                FakturCode = @FakturCode
+                FakturCode = @FakturCode,
+                OrderNote = @OrderNote
             WHERE
                 OrderId = @OrderId";
 
@@ -89,6 +91,7 @@ namespace btrade.infrastructure.Repository
             dp.AddParam("@UserEmail", model.UserEmail, SqlDbType.VarChar);
             dp.AddParam("@StatusSync", model.StatusSync, SqlDbType.VarChar);
             dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);
+            dp.AddParam("@OrderNote", model.OrderNote, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -124,7 +127,7 @@ namespace btrade.infrastructure.Repository
             const string sql = @"
             SELECT
                 OrderId, OrderLocalId, CustomerId, CustomerCode, CustomerName, CustomerAddress,
-                OrderDate, SalesId, SalesName, TotalAmount, UserEmail, StatusSync, FakturCode
+                OrderDate, SalesId, SalesName, TotalAmount, UserEmail, StatusSync, FakturCode, OrderNote
             FROM
                 BTRADE_Order
             WHERE
@@ -142,7 +145,7 @@ namespace btrade.infrastructure.Repository
             const string sql = @"
             SELECT
                 OrderId, OrderLocalId, CustomerId, CustomerCode, CustomerName, CustomerAddress,
-                OrderDate, SalesId, SalesName, TotalAmount, UserEmail, StatusSync, FakturCode
+                OrderDate, SalesId, SalesName, TotalAmount, UserEmail, StatusSync, FakturCode, OrderNote
             FROM
                 BTRADE_Order
             WHERE

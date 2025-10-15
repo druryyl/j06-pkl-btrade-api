@@ -23,9 +23,11 @@ public class CustomerDal : ICustomerDal
     {
         const string sql = @"
             INSERT INTO BTRADE_Customer(
-                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah)
+                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser)
             VALUES (
-                @CustomerId, @CustomerCode, @CustomerName, @Alamat, @Wilayah)";
+                @CustomerId, @CustomerCode, @CustomerName, @Alamat, @Wilayah,
+                @Latitude, @Longitude, @Accuracy, @CoordinateTimeStamp, @CoordinateUser)";
 
         var dp = new DynamicParameters();
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
@@ -33,6 +35,12 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
         dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@Wilayah", model.Wilayah, SqlDbType.VarChar);
+
+        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Float);
+        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Float);
+        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Float);
+        dp.AddParam("@CoordinateTimeStamp", model.CoordinateTimeStamp, SqlDbType.BigInt);
+        dp.AddParam("@CoordinateUser", model.CoordinateUser, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -47,7 +55,12 @@ public class CustomerDal : ICustomerDal
                 CustomerCode = @CustomerCode,
                 CustomerName = @CustomerName,
                 Alamat = @Alamat,
-                Wilayah = @Wilayah
+                Wilayah = @Wilayah,
+                Latitude = @Latitude,
+                Longitude = @Longitude,
+                Accuracy = @Accuracy,
+                CoordinateTimeStamp = @CoordinatTimeStamp,
+                CoordinateUser = @CoordinateUser
             WHERE
                 CustomerId = @CustomerId";
 
@@ -57,6 +70,12 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
         dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@Wilayah", model.Wilayah, SqlDbType.VarChar);
+
+        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Float);
+        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Float);
+        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Float);
+        dp.AddParam("@CoordinateTimeStamp", model.CoordinateTimeStamp, SqlDbType.BigInt);
+        dp.AddParam("@CoordinateUser", model.CoordinateUser, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -92,7 +111,8 @@ public class CustomerDal : ICustomerDal
     {
         const string sql = @"
             SELECT
-                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah
+                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser
             FROM
                 BTRADE_Customer
             WHERE
@@ -109,7 +129,8 @@ public class CustomerDal : ICustomerDal
     {
         const string sql = @"
             SELECT
-                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah
+                CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser
             FROM
                 BTRADE_Customer";
 

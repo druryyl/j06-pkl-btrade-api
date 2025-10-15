@@ -14,7 +14,7 @@ public  class OrderModel : IOrderKey
     public OrderModel(string orderId, string orderLocalCode, 
         string customerId, string customerCode, string customerName, string customerAddress, 
         string orderDate, string salesId, string salesName, decimal totalAmount, 
-        string userEmail, string statusSync, string fakturCode)
+        string userEmail, string statusSync, string fakturCode, string orderNote)
     {
         OrderId = orderId;
         OrderLocalId = orderLocalCode;
@@ -29,6 +29,7 @@ public  class OrderModel : IOrderKey
         UserEmail = userEmail;
         StatusSync = statusSync;
         FakturCode = fakturCode;
+        OrderNote = orderNote;
         ListItems = new List<OrderItemType>();
     }
 
@@ -48,10 +49,11 @@ public  class OrderModel : IOrderKey
     public string StatusSync { get; set; }
 
     public string FakturCode { get; private set; }
+    public string OrderNote { get; private set; }
 
     public List<OrderItemType> ListItems { get; set; }
 
-    public static IOrderKey Key(string id) => new OrderModel(id, "", "", "", "", "", "", "", "", 0, "", "", "");
+    public static IOrderKey Key(string id) => new OrderModel(id, "", "", "", "", "", "", "", "", 0, "", "", "", "");
 }
 
 public interface IOrderKey

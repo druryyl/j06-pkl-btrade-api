@@ -31,4 +31,11 @@ public class CustomerController : ControllerBase
         var response = await _mediator.Send(cmd);
         return Ok(new JSendOk(response));
     }
+
+    [HttpPatch]
+    public async Task<IActionResult> UpdateLocation(CustomerLocationUpdateCommand cmd)
+    {
+        await _mediator.Send(cmd);
+        return Ok();
+    }
 }
