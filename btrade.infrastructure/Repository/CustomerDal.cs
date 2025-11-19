@@ -24,10 +24,10 @@ public class CustomerDal : ICustomerDal
         const string sql = @"
             INSERT INTO BTRADE_Customer(
                 CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
-                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser)
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated)
             VALUES (
                 @CustomerId, @CustomerCode, @CustomerName, @Alamat, @Wilayah,
-                @Latitude, @Longitude, @Accuracy, @CoordinateTimeStamp, @CoordinateUser)";
+                @Latitude, @Longitude, @Accuracy, @CoordinateTimeStamp, @CoordinateUser, @IsUpdated)";
 
         var dp = new DynamicParameters();
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
@@ -41,6 +41,7 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Float);
         dp.AddParam("@CoordinateTimeStamp", model.CoordinateTimeStamp, SqlDbType.BigInt);
         dp.AddParam("@CoordinateUser", model.CoordinateUser, SqlDbType.VarChar);
+        dp.AddParam("@IsUpdated", model.IsUpdated, SqlDbType.Bit);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -59,8 +60,9 @@ public class CustomerDal : ICustomerDal
                 Latitude = @Latitude,
                 Longitude = @Longitude,
                 Accuracy = @Accuracy,
-                CoordinateTimeStamp = @CoordinatTimeStamp,
-                CoordinateUser = @CoordinateUser
+                CoordinateTimeStamp = @CoordinateTimeStamp,
+                CoordinateUser = @CoordinateUser,
+                IsUpdated = @IsUpdated
             WHERE
                 CustomerId = @CustomerId";
 
@@ -76,6 +78,7 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Float);
         dp.AddParam("@CoordinateTimeStamp", model.CoordinateTimeStamp, SqlDbType.BigInt);
         dp.AddParam("@CoordinateUser", model.CoordinateUser, SqlDbType.VarChar);
+        dp.AddParam("@IsUpdated", model.IsUpdated, SqlDbType.Bit);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -112,7 +115,7 @@ public class CustomerDal : ICustomerDal
         const string sql = @"
             SELECT
                 CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
-                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated
             FROM
                 BTRADE_Customer
             WHERE
@@ -130,7 +133,7 @@ public class CustomerDal : ICustomerDal
         const string sql = @"
             SELECT
                 CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
-                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated
             FROM
                 BTRADE_Customer";
 

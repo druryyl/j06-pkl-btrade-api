@@ -9,19 +9,21 @@ namespace btrade.domain.Model;
 public record CustomerType(string CustomerId, string CustomerCode,
     string CustomerName, string Alamat, string Wilayah,
     double Latitude, double Longitude, double Accuracy,
-    long CoordinateTimeStamp, string CoordinateUser) : ICustomerKey
+    long CoordinateTimeStamp, string CoordinateUser, bool IsUpdated) : ICustomerKey
 {
     public CustomerType SetLocation(double lat, double lon, double accuracy, long coordinateTimeStamp,
         string coordinateUser)
     {
-        return this with
+        var result = this with
         {
             Latitude = lat,
             Longitude = lon,
             Accuracy = accuracy,
             CoordinateTimeStamp = coordinateTimeStamp,
-            CoordinateUser = coordinateUser
+            CoordinateUser = coordinateUser,
+            IsUpdated = true
         };
+        return result;
     }
 }
 

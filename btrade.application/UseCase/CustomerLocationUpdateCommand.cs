@@ -28,8 +28,9 @@ namespace btrade.application.UseCase
             var customerMayBe = _customerDal.GetData(key);
             if (!customerMayBe.HasValue)
                 return Task.CompletedTask;
+            
             var customer = customerMayBe.Value;
-            customer.SetLocation(
+            customer = customer.SetLocation(
                 request.Latitude,
                 request.Longitude,
                 request.Accuracy,

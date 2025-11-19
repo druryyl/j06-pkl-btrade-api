@@ -11,6 +11,7 @@
     Accuracy FLOAT NOT NULL CONSTRAINT DF_BTRADE_Customer_Accuracy DEFAULT(0),
     CoordinateTimeStamp BIGINT NOT NULL CONSTRAINT DF_BTRADE_Customer_CoordinateTimeStampe DEFAULT(0),
     CoordinateUser VARCHAR(100) NOT NULL CONSTRAINT DF_BTRADE_Customer_CoordinateUser DEFAULT(''),
+    IsUpdated BIT NOT NULL CONSTRAINT DF_BTRADE_Customer_IsUpdated DEFAULT(0),
 
     CONSTRAINT PK_BTRADE_Customer PRIMARY KEY CLUSTERED (CustomerId ASC)
 )

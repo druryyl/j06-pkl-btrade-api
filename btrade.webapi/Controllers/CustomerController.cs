@@ -24,6 +24,14 @@ public class CustomerController : ControllerBase
         var response = await _mediator.Send(query);
         return Ok(new JSendOk(response));
     }
+    [HttpGet]
+    [Route("Updated")]
+    public async Task<IActionResult> ListDataUpdated()
+    {
+        var query = new CustomerListUpdatedQuery();
+        var response = await _mediator.Send(query);
+        return Ok(new JSendOk(response));
+    }
 
     [HttpPost]
     public async Task<IActionResult> SyncData(CustomerSyncCommand cmd)
@@ -38,4 +46,13 @@ public class CustomerController : ControllerBase
         await _mediator.Send(cmd);
         return Ok();
     }
+    
+    [HttpPatch]
+    [Route("ClearUpdatedFlag")]
+    public async Task<IActionResult> ClearUpdatedFlag(CustomerClearUpdatedFlagCmd cmd)
+    {
+        await _mediator.Send(cmd);
+        return Ok();
+    }
+
 }
