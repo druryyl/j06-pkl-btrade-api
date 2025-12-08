@@ -4,7 +4,7 @@ using MediatR;
 
 namespace btrade.application.UseCase;
 
-public record CustomerClearUpdatedFlagCmd() : IRequest;
+public record CustomerClearUpdatedFlagCmd(string ServerId) : IRequest, IServerId;
 
 public class CustomerClearUpdatedFlagHandler : IRequestHandler<CustomerClearUpdatedFlagCmd>
 {
@@ -17,7 +17,7 @@ public class CustomerClearUpdatedFlagHandler : IRequestHandler<CustomerClearUpda
 
     public Task Handle(CustomerClearUpdatedFlagCmd request, CancellationToken cancellationToken)
     {
-        var listDataMayBe = _customerDal.ListData();
+        var listDataMayBe = _customerDal.ListData(request);
         var listCustomer = listDataMayBe.HasValue
             ? listDataMayBe.Value
             : Enumerable.Empty<CustomerType>();

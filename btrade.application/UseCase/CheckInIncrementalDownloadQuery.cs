@@ -1,5 +1,6 @@
 ﻿using btrade.application.Contract;
 using btrade.domain.CheckInFeature;
+using btrade.domain.Model;
 using MediatR;
 using Nuna.Lib.TransactionHelper;
 using Nuna.Lib.ValidationHelper;
@@ -11,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace btrade.application.UseCase
 {
-    public record CheckInIncrementalDownloadQuery(string Tgl1, string Tgl2)
-        : IRequest<IEnumerable<CheckInType>>;
+    public record CheckInIncrementalDownloadQuery(string Tgl1, string Tgl2, string ServerId)
+        : IRequest<IEnumerable<CheckInType>>, IServerId;
 
     public class CheckInIncrementalDownloadQueryHandler : IRequestHandler<CheckInIncrementalDownloadQuery, IEnumerable<CheckInType>>
     {
@@ -27,7 +28,7 @@ namespace btrade.application.UseCase
         {
             // Get check-ins within date range that are still in DRAFT status
             var periode = new Periode(request.Tgl1.ToDate(DateFormatEnum.YMD), request.Tgl2.ToDate(DateFormatEnum.YMD));
-            var checkIns = _checkInDal.ListData(periode)?.ToList() ?? new List<CheckInType>();
+            var checkIns = _checkInDal.ListData(periode, request)?.ToList() ?? new List<CheckInType>();
             if (checkIns.Count == 0)
                 return Task.FromResult(Enumerable.Empty<CheckInType>());
 

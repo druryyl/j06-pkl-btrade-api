@@ -17,9 +17,10 @@ namespace btrade.webapi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListData()
+        [Route("{serverId}")]
+        public async Task<IActionResult> ListData(string serverId)
         {
-            var query = new WilayahListQuery();
+            var query = new WilayahListQuery(serverId);
             var response = await _mediator.Send(query);
             return Ok(new JSendOk(response));
         }

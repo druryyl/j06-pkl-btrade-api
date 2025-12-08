@@ -8,7 +8,7 @@ namespace btrade.application.UseCase
     public record OrderUploadCommand(string OrderId, string OrderLocalId, 
         string CustomerId, string CustomerCode, string CustomerName, string Address,
         string OrderDate, string SalesId, string SalesName, decimal TotalAmount, 
-        string UserEmail, string OrderNote, IEnumerable<OrderItemType> ListItem) : IRequest;
+        string UserEmail, string OrderNote, string ServerId, IEnumerable<OrderItemType> ListItem) : IRequest, IServerId;
 
     public class OrderUploadCommandHandler : IRequestHandler<OrderUploadCommand>
     {
@@ -25,7 +25,8 @@ namespace btrade.application.UseCase
                 request.OrderId, request.OrderLocalId, request.CustomerId,
                 request.CustomerCode, request.CustomerName, request.Address,
                 request.OrderDate, request.SalesId, request.SalesName, 
-                request.TotalAmount, request.UserEmail, "TERKIRIM", "", request.OrderNote);
+                request.TotalAmount, request.UserEmail, "TERKIRIM", "", 
+                request.OrderNote, request.ServerId);
 
             foreach(var item in request.ListItem)
             {

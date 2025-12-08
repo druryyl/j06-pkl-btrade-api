@@ -84,6 +84,9 @@ public class SalesPersonDal : ISalesPersonDal
             WHERE
                 ServerId = @ServerId ";
 
+        var dp = new DynamicParameters();
+        dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
+
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
     }

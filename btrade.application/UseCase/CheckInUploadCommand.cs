@@ -8,8 +8,8 @@ namespace btrade.application.UseCase
 {
     public record CheckInUploadCommand(
         string CheckInId,
-        string CheckInDate,        // yyyy-MM-dd
-        string CheckInTime,        // HH:mm:ss
+        string CheckInDate,
+        string CheckInTime,
         string UserEmail,
         float CheckInLatitude,
         float CheckInLongitude,
@@ -20,7 +20,8 @@ namespace btrade.application.UseCase
         string CustomerAddress,
         double CustomerLatitude,
         double CustomerLongitude,
-        string StatusSync) : IRequest;
+        string StatusSync,
+        string ServerId) : IRequest;
 
     public class CheckInUploadCommandHandler : IRequestHandler<CheckInUploadCommand>
     {
@@ -47,7 +48,8 @@ namespace btrade.application.UseCase
                 request.CustomerAddress,
                 request.CustomerLatitude,
                 request.CustomerLongitude,
-                "TERKIRIM");
+                "TERKIRIM",
+                request.ServerId);
 
             using var trans = TransHelper.NewScope();
 

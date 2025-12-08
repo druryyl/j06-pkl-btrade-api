@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace btrade.application.UseCase
 {
-    public record KategoriSyncCommand(IEnumerable<KategoriType> ListKategori) : IRequest<Unit>;
+    public record KategoriSyncCommand(IEnumerable<KategoriType> ListKategori, string ServerId) : IRequest<Unit>, IServerId;
 
     public class KategoriSyncHandler : IRequestHandler<KategoriSyncCommand, Unit>
     {
@@ -26,7 +26,7 @@ namespace btrade.application.UseCase
             using var trans = TransHelper.NewScope();
 
             // Clear existing data
-            _kategoriDal.Delete();
+            _kategoriDal.Delete(request);
 
             // Insert new data
             foreach (var item in request.ListKategori)

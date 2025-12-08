@@ -4,7 +4,7 @@ using MediatR;
 
 namespace btrade.application.UseCase;
 
-public record CustomerListDataQuery() : IRequest<IEnumerable<CustomerType>>;
+public record CustomerListDataQuery(string ServerId) : IRequest<IEnumerable<CustomerType>>, IServerId;
 
 public class CustomerListDataHandler : IRequestHandler<CustomerListDataQuery, IEnumerable<CustomerType>>
 {
@@ -17,7 +17,7 @@ public class CustomerListDataHandler : IRequestHandler<CustomerListDataQuery, IE
 
     public Task<IEnumerable<CustomerType>> Handle(CustomerListDataQuery request, CancellationToken cancellationToken)
     {
-        var listData = _customerDal.ListData();
+        var listData = _customerDal.ListData(request);
         return Task.FromResult(listData.HasValue
             ? listData.Value
             : Enumerable.Empty<CustomerType>());

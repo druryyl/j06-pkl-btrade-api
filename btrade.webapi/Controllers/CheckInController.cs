@@ -25,10 +25,10 @@ namespace btrade.webapi.Controllers
         }
 
         [HttpGet]
-        [Route("incremental/{tgl1}/{tgl2}")]
-        public async Task<IActionResult> IncrementalDownload(string tgl1, string tgl2)
+        [Route("incremental/{tgl1}/{tgl2}/{serverId}")]
+        public async Task<IActionResult> IncrementalDownload(string tgl1, string tgl2, string serverId)
         {
-            var query = new CheckInIncrementalDownloadQuery(tgl1, tgl2);
+            var query = new CheckInIncrementalDownloadQuery(tgl1, tgl2, serverId);
             var result = await _mediator.Send(query);
             return Ok(new JSendOk(result));
         }

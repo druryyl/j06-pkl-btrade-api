@@ -11,7 +11,7 @@ namespace btrade.application.UseCase
 {
     public record CustomerLocationUpdateCommand(string CustomerId,
         double Latitude, double Longitude, double Accuracy,
-        long CoordinateTimeStamp, string CoordinateUser) : IRequest;
+        long CoordinateTimeStamp, string CoordinateUser, string ServerId) : IRequest, IServerId;
 
     public class CustomerLocationUpdateHandler : IRequestHandler<CustomerLocationUpdateCommand>
     {
@@ -24,7 +24,7 @@ namespace btrade.application.UseCase
 
         public Task Handle(CustomerLocationUpdateCommand request, CancellationToken cancellationToken)
         {
-            var key = new CustomerKey(request.CustomerId);
+            var key = new CustomerKey(request.CustomerId, request.ServerId);
             var customerMayBe = _customerDal.GetData(key);
             if (!customerMayBe.HasValue)
                 return Task.CompletedTask;

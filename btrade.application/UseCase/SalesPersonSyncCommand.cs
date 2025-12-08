@@ -5,7 +5,7 @@ using Nuna.Lib.TransactionHelper;
 
 namespace btrade.application.UseCase;
 
-public record SalesPersonSyncCommand(IEnumerable<SalesPersonType> ListSalesPerson) : IRequest<Unit>;
+public record SalesPersonSyncCommand(IEnumerable<SalesPersonType> ListSalesPerson, string ServerId) : IRequest<Unit>, IServerId;
 
 public class SalesPersonSyncHandler : IRequestHandler<SalesPersonSyncCommand, Unit>
 {
@@ -19,7 +19,7 @@ public class SalesPersonSyncHandler : IRequestHandler<SalesPersonSyncCommand, Un
     public Task<Unit> Handle(SalesPersonSyncCommand request, CancellationToken cancellationToken)
     {
         using var trans = TransHelper.NewScope();
-        _salesPersonDal.Delete();
+        _salesPersonDal.Delete(request);
         foreach (var item in request.ListSalesPerson)
         {
             _salesPersonDal.Insert(item);
