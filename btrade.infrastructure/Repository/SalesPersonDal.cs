@@ -23,14 +23,15 @@ public class SalesPersonDal : ISalesPersonDal
     {
         const string sql = @"
             INSERT INTO BTRADE_SalesPerson(
-                SalesPersonId, SalesPersonCode, SalesPersonName
+                SalesPersonId, SalesPersonCode, SalesPersonName, ServerId
             ) VALUES (
-                @SalesPersonId, @SalesPersonCode, @SalesPersonName)";
+                @SalesPersonId, @SalesPersonCode, @SalesPersonName, @ServerId)";
 
         var dp = new DynamicParameters();
         dp.AddParam("@SalesPersonId", model.SalesPersonId, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonCode", model.SalesPersonCode, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonName", model.SalesPersonName, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -45,12 +46,14 @@ public class SalesPersonDal : ISalesPersonDal
                 SalesPersonCode = @SalesPersonCode,
                 SalesPersonName = @SalesPersonName
             WHERE
-                SalesPersonId = @SalesPersonId";
+                SalesPersonId = @SalesPersonId
+                AND ServerId = @ServerId";
 
         var dp = new DynamicParameters();
         dp.AddParam("@SalesPersonId", model.SalesPersonId, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonCode", model.SalesPersonCode, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonName", model.SalesPersonName, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -62,23 +65,27 @@ public class SalesPersonDal : ISalesPersonDal
             DELETE FROM
                 BTRADE_SalesPerson
             WHERE
-                SalesPersonId = @SalesPersonId";
+                SalesPersonId = @SalesPersonId
+                AND ServerId = @ServerId";
 
         var dp = new DynamicParameters();
         dp.AddParam("@SalesPersonId", key.SalesPersonId, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
     }
 
-    public void Delete()
+    public void Delete(IServerId server)
     {
         const string sql = @"
             DELETE FROM
-                BTRADE_SalesPerson";
+                BTRADE_SalesPerson
+            WHERE
+                ServerId = @ServerId ";
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        conn.Execute(sql);
+        conn.Execute(sql, dp);
     }
 
     public MayBe<SalesPersonType> GetData(ISalesPersonKey key)
@@ -98,13 +105,18 @@ public class SalesPersonDal : ISalesPersonDal
         return MayBe.From(conn.ReadSingle<SalesPersonType>(sql, dp));
     }
 
-    public MayBe<IEnumerable<SalesPersonType>> ListData()
+    public MayBe<IEnumerable<SalesPersonType>> ListData(IServerId server)
     {
         const string sql = @"
             SELECT
-                SalesPersonId, SalesPersonCode, SalesPersonName
+                SalesPersonId, SalesPersonCode, SalesPersonName, ServerId
             FROM
-                BTRADE_SalesPerson";
+                BTRADE_SalesPerson
+            WHERE
+                ServerId = @ServerId ";
+
+        var dp = new DynamicParameters();
+        dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return MayBe.From(conn.Read<SalesPersonType>(sql));

@@ -13,7 +13,7 @@ public interface ICustomerDal :
     IUpdate<CustomerType>,
     IDelete<ICustomerKey>,
     IGetDataMayBe<CustomerType, ICustomerKey>,
-    IListDataMayBe<CustomerType> 
+    IListDataMayBe<CustomerType, IServerId> 
 {
-    void Delete();
+    void Delete(IServerId server);
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace btrade.domain.Model;
 
 public record SalesPersonType(string SalesPersonId, string SalesPersonCode,
-    string SalesPersonName);
+    string SalesPersonName, string ServerId) : ISalesPersonKey;
 
-public interface ISalesPersonKey
+public interface ISalesPersonKey : IServerId
 {
     string SalesPersonId { get; }
 }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace btrade.domain.Model;
 
-public record KategoriType(string KategoriId, string KategoriName);
+public record KategoriType(string KategoriId, string KategoriName, string ServerId) : IKategoriKey;
 
-public interface IKategoriKey
+public interface IKategoriKey : IServerId
 {
     string KategoriId { get; }
 }   

@@ -8,7 +8,7 @@ public interface IBrgDal :
     IUpdate<BrgType>,
     IDelete<IBrgKey>,
     IGetDataMayBe<BrgType, IBrgKey>,
-    IListDataMayBe<BrgType>
+    IListDataMayBe<BrgType, IServerId>
 {
-    void Delete();
+    void Delete(IServerId serverId);
 }

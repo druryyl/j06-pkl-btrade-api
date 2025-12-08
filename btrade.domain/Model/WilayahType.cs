@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace btrade.domain.Model;
 
-public record WilayahType(string WilayahId, string WilayahName) : IWilayahKey;
+public record WilayahType(string WilayahId, string WilayahName, string ServerId) : IWilayahKey;
 
-public interface IWilayahKey
+public interface IWilayahKey : IServerId
 {
     string WilayahId { get; }
 }

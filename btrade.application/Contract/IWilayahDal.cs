@@ -13,8 +13,8 @@ namespace btrade.application.Contract
         IUpdate<WilayahType>,
         IDelete<IWilayahKey>,
         IGetDataMayBe<WilayahType, IWilayahKey>,
-        IListDataMayBe<WilayahType>
+        IListDataMayBe<WilayahType, IServerId>
     {
-        void Delete();
+        void Delete(IServerId server);
     }
 }

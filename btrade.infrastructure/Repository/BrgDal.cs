@@ -24,10 +24,10 @@ public class BrgDal : IBrgDal
         const string sql = @"
             INSERT INTO BTRADE_Brg(
                 BrgId, BrgCode, BrgName, KategoriName, 
-                SatBesar, SatKecil, Konversi, HrgSat, Stok)
+                SatBesar, SatKecil, Konversi, HrgSat, Stok, ServerId)
             VALUES (
                 @BrgId, @BrgCode, @BrgName, @KategoriName, 
-                @SatBesar, @SatKecil, @Konversi, @HrgSat, @Stok)";
+                @SatBesar, @SatKecil, @Konversi, @HrgSat, @Stok, @ServerId)";
 
         var dp = new DynamicParameters();
         dp.AddParam("@BrgId", model.BrgId, SqlDbType.VarChar); 
@@ -39,6 +39,7 @@ public class BrgDal : IBrgDal
         dp.AddParam("@Konversi", model.Konversi, SqlDbType.Int); 
         dp.AddParam("@HrgSat", model.HrgSat, SqlDbType.Decimal); 
         dp.AddParam("@Stok", model.Stok, SqlDbType.Int);
+        dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -57,7 +58,8 @@ public class BrgDal : IBrgDal
                 SatKecil = @SatKecil, 
                 Konversi = @Konversi, 
                 HrgSat = @HrgSat, 
-                Stok = @Stok
+                Stok = @Stok,
+                ServerId = @ServerId
             WHERE
                 BrgId = @BrgId";
 
@@ -71,6 +73,7 @@ public class BrgDal : IBrgDal
         dp.AddParam("@Konversi", model.Konversi, SqlDbType.Int);
         dp.AddParam("@HrgSat", model.HrgSat, SqlDbType.Decimal);
         dp.AddParam("@Stok", model.Stok, SqlDbType.Int);
+        dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -82,23 +85,30 @@ public class BrgDal : IBrgDal
             DELETE FROM
                 BTRADE_Brg
             WHERE
-                BrgId = @BrgId";
+                BrgId = @BrgId
+                AND ServerId = @ServerId";
 
         var dp = new DynamicParameters();
         dp.AddParam("@BrgId", key.BrgId, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt)); 
         conn.Execute(sql, dp);
     }
 
-    public void Delete()
+    public void Delete(IServerId server)
     {
         const string sql = @"
             DELETE FROM
-                BTRADE_Brg";
+                BTRADE_Brg
+            WHERE
+                ServerId = @ServerId";
+
+        var dp = new DynamicParameters();
+        dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        conn.Execute(sql);
+        conn.Execute(sql, dp);
     }
 
     public MayBe<BrgType> GetData(IBrgKey key)
@@ -106,56 +116,36 @@ public class BrgDal : IBrgDal
         const string sql = @"
             SELECT
                 BrgId, BrgCode, BrgName, KategoriName, 
-                SatBesar, SatKecil, Konversi, HrgSat, Stok
+                SatBesar, SatKecil, Konversi, HrgSat, Stok, ServerId
             FROM
                 BTRADE_Brg
             WHERE
-                BrgId = @BrgId";
+                BrgId = @BrgId
+                AND ServerId = @ServerId";
 
         var dp = new DynamicParameters();
         dp.AddParam("@BrgId", key.BrgId, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return MayBe.From(conn.ReadSingle<BrgType>(sql, dp));
     }
 
-    public MayBe<IEnumerable<BrgType>> ListData()
+    public MayBe<IEnumerable<BrgType>> ListData(IServerId server)
     {
         const string sql = @"
             SELECT
                 BrgId, BrgCode, BrgName, KategoriName, 
-                SatBesar, SatKecil, Konversi, HrgSat, Stok
+                SatBesar, SatKecil, Konversi, HrgSat, Stok, ServerId
             FROM
-                BTRADE_Brg ";
+                BTRADE_Brg 
+            WHERE
+                ServerId = @ServerId ";
+
+        var dp = new DynamicParameters();
+        dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        return MayBe.From(conn.Read<BrgType>(sql));
+        return MayBe.From(conn.Read<BrgType>(sql, dp));
     }
 }
-
-//public class BrgDalTest
-//{
-//    private readonly BrgDal _sut;
-
-//    public void UT1_InsertTest()
-//    {
-//        // Arrange
-//        var model = new BrgType
-//        {
-//            BrgId = "BRG001",
-//            BrgCode = "BC001",
-//            BrgName = "Barang 1",
-//            KategoriName = "Kategori A",
-//            SatBesar = "PCS",
-//            SatKecil = "BOX",
-//            Konversi = 10,
-//            HrgSat = 100.00m,
-//            Stok = 50
-//        };
-//        // Act
-//        _sut.Insert(model);
-//        // Assert
-//        var result = _sut.GetData(new BrgKey { BrgId = model.BrgId });
-//        Assert.IsTrue(result.HasValue);
-//    }
-//}
