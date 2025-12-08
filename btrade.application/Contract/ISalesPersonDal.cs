@@ -13,7 +13,7 @@ public interface ISalesPersonDal :
     IUpdate<SalesPersonType>,
     IDelete<ISalesPersonKey>,
     IGetDataMayBe<SalesPersonType, ISalesPersonKey>,
-    IListDataMayBe<SalesPersonType>
+    IListDataMayBe<SalesPersonType, IServerId>
 {
-    void Delete();
+    void Delete(IServerId server);
 }

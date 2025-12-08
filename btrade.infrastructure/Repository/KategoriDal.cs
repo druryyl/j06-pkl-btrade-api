@@ -23,13 +23,14 @@ namespace btrade.infrastructure.Repository
         {
             const string sql = @"
             INSERT INTO BTRADE_Kategori(
-                KategoriId, KategoriName
+                KategoriId, KategoriName, ServerId
             ) VALUES (
-                @KategoriId, @KategoriName)";
+                @KategoriId, @KategoriName, @ServerId)";
 
             var dp = new DynamicParameters();
             dp.AddParam("@KategoriId", model.KategoriId, SqlDbType.VarChar);
             dp.AddParam("@KategoriName", model.KategoriName, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -43,11 +44,13 @@ namespace btrade.infrastructure.Repository
             SET
                 KategoriName = @KategoriName
             WHERE
-                KategoriId = @KategoriId";
+                KategoriId = @KategoriId
+                AND ServerId = @ServerId ";
 
             var dp = new DynamicParameters();
             dp.AddParam("@KategoriId", model.KategoriId, SqlDbType.VarChar);
             dp.AddParam("@KategoriName", model.KategoriName, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -59,10 +62,12 @@ namespace btrade.infrastructure.Repository
             DELETE FROM
                 BTRADE_Kategori
             WHERE
-                KategoriId = @KategoriId";
+                KategoriId = @KategoriId
+                AND ServerId = @ServerId ";
 
             var dp = new DynamicParameters();
             dp.AddParam("@KategoriId", key.KategoriId, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -76,33 +81,43 @@ namespace btrade.infrastructure.Repository
             FROM
                 BTRADE_Kategori
             WHERE
-                KategoriId = @KategoriId";
+                KategoriId = @KategoriId
+                AND ServerId = @ServerId ";
 
             var dp = new DynamicParameters();
             dp.AddParam("@KategoriId", key.KategoriId, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             return MayBe.From(conn.ReadSingle<KategoriType>(sql, dp));
         }
 
-        public MayBe<IEnumerable<KategoriType>> ListData()
+        public MayBe<IEnumerable<KategoriType>> ListData(IServerId server)
         {
             const string sql = @"
             SELECT
                 KategoriId, KategoriName
             FROM
-                BTRADE_Kategori";
+                BTRADE_Kategori
+            WHERE
+                ServerId = @ServerId";
+
+            var dp = new DynamicParameters();
+            dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-            return MayBe.From(conn.Read<KategoriType>(sql));
+            return MayBe.From(conn.Read<KategoriType>(sql, dp));
         }
 
-        public void Delete()
+        public void Delete(IServerId server)
         {
-            const string sql = "DELETE FROM BTRADE_Kategori";
+            const string sql = "DELETE FROM BTRADE_Kategori WHERE ServerId = @ServerId";
+
+            var dp = new DynamicParameters();
+            dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-            conn.Execute(sql);
+            conn.Execute(sql, dp);
         }
     }
 }

@@ -6,8 +6,8 @@ using Nuna.Lib.ValidationHelper;
 
 namespace btrade.application.UseCase
 {
-    public record OrderIncrementalDownloadQuery(string Tgl1, string Tgl2)
-        : IRequest<IEnumerable<OrderModel>>;
+    public record OrderIncrementalDownloadQuery(string Tgl1, string Tgl2, string ServerId)
+        : IRequest<IEnumerable<OrderModel>>, IServerId;
 
     public class OrderIncrementalDownloadQueryHandler : IRequestHandler<OrderIncrementalDownloadQuery, IEnumerable<OrderModel>>
     {
@@ -22,7 +22,7 @@ namespace btrade.application.UseCase
         {
             var periode = new Periode(request.Tgl1.ToDate(DateFormatEnum.YMD), 
                 request.Tgl2.ToDate(DateFormatEnum.YMD));
-            var orders = _orderDal.ListData(periode);
+            var orders = _orderDal.ListData(periode, request);
             if (orders.HasValue == false)
                 return Task.FromResult(Enumerable.Empty<OrderModel>());
 

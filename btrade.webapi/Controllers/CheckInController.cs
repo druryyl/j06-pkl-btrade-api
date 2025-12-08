@@ -8,17 +8,17 @@ namespace btrade.webapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class CheckInController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public OrderController(IMediator mediator)
+        public CheckInController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadData(OrderUploadCommand cmd)
+        public async Task<IActionResult> UploadData(CheckInUploadCommand cmd)
         {
             await _mediator.Send(cmd);
             return Ok(new JSendOk("Done"));
@@ -28,7 +28,7 @@ namespace btrade.webapi.Controllers
         [Route("incremental/{tgl1}/{tgl2}/{serverId}")]
         public async Task<IActionResult> IncrementalDownload(string tgl1, string tgl2, string serverId)
         {
-            var query = new OrderIncrementalDownloadQuery(tgl1, tgl2, serverId);
+            var query = new CheckInIncrementalDownloadQuery(tgl1, tgl2, serverId);
             var result = await _mediator.Send(query);
             return Ok(new JSendOk(result));
         }

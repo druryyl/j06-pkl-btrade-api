@@ -4,7 +4,7 @@ using MediatR;
 
 namespace btrade.application.UseCase;
 
-public record SalesPersonListDataQuery() : IRequest<IEnumerable<SalesPersonType>>;
+public record SalesPersonListDataQuery(string ServerId) : IRequest<IEnumerable<SalesPersonType>>, IServerId;
 
 public class SalesPersonListDataHandler : IRequestHandler<SalesPersonListDataQuery, IEnumerable<SalesPersonType>>
 {
@@ -17,7 +17,7 @@ public class SalesPersonListDataHandler : IRequestHandler<SalesPersonListDataQue
 
     public Task<IEnumerable<SalesPersonType>> Handle(SalesPersonListDataQuery request, CancellationToken cancellationToken)
     {
-        var listData = _salesPersonDal.ListData();
+        var listData = _salesPersonDal.ListData(request);
         return Task.FromResult(listData.HasValue
             ? listData.Value
             : Enumerable.Empty<SalesPersonType>());

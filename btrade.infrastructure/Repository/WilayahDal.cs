@@ -28,13 +28,14 @@ namespace btrade.infrastructure.Repository
         {
             const string sql = @"
             INSERT INTO BTRADE_Wilayah(
-                WilayahId, WilayahName
+                WilayahId, WilayahName, ServerId
             ) VALUES (
-                @WilayahId, @WilayahName)";
+                @WilayahId, @WilayahName, ServerId)";
 
             var dp = new DynamicParameters();
             dp.AddParam("@WilayahId", model.WilayahId, SqlDbType.VarChar);
             dp.AddParam("@WilayahName", model.WilayahName, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -48,11 +49,13 @@ namespace btrade.infrastructure.Repository
             SET
                 WilayahName = @WilayahName
             WHERE
-                WilayahId = @WilayahId";
+                WilayahId = @WilayahId
+                AND ServerId = @ServerId";
 
             var dp = new DynamicParameters();
             dp.AddParam("@WilayahId", model.WilayahId, SqlDbType.VarChar);
             dp.AddParam("@WilayahName", model.WilayahName, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -64,10 +67,12 @@ namespace btrade.infrastructure.Repository
             DELETE FROM
                 BTRADE_Wilayah
             WHERE
-                WilayahId = @WilayahId";
+                WilayahId = @WilayahId
+                AND ServerId = @ServerId";
 
             var dp = new DynamicParameters();
             dp.AddParam("@WilayahId", key.WilayahId, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             conn.Execute(sql, dp);
@@ -81,33 +86,44 @@ namespace btrade.infrastructure.Repository
             FROM
                 BTRADE_Wilayah
             WHERE
-                WilayahId = @WilayahId";
+                WilayahId = @WilayahId
+                AND ServerId = @ServerId ";
 
             var dp = new DynamicParameters();
             dp.AddParam("@WilayahId", key.WilayahId, SqlDbType.VarChar);
+            dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
             return MayBe.From(conn.ReadSingle<WilayahType>(sql, dp));
         }
 
-        public MayBe<IEnumerable<WilayahType>> ListData()
+        public MayBe<IEnumerable<WilayahType>> ListData(IServerId server)
         {
             const string sql = @"
             SELECT
-                WilayahId, WilayahName
+                WilayahId, WilayahName, ServerId
             FROM
-                BTRADE_Wilayah";
+                BTRADE_Wilayah
+            WHERE
+                ServerId = @ServerId ";
+
+            var dp = new DynamicParameters();
+            dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-            return MayBe.From(conn.Read<WilayahType>(sql));
+            return MayBe.From(conn.Read<WilayahType>(sql, dp));
         }
 
-        public void Delete()
+        public void Delete(IServerId server)
         {
-            const string sql = "DELETE FROM BTRADE_Wilayah";
+            const string sql = "DELETE FROM BTRADE_Wilayah WHERE ServerId = @ServerId";
+
+            var dp = new DynamicParameters();
+            dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
+
 
             using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-            conn.Execute(sql);
+            conn.Execute(sql, dp);
         }
     }
 }

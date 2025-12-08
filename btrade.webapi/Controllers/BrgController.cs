@@ -17,9 +17,10 @@ public class BrgController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> ListData()
+    [Route("{serverId}")]
+    public async Task<IActionResult> ListData(string serverId)
     {
-        var query = new BrgListDataQuery();
+        var query = new BrgListDataQuery(serverId);
         var response = await _mediator.Send(query);
         return Ok(new JSendOk(response));
     }

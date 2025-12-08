@@ -13,8 +13,8 @@ namespace btrade.application.Contract
         IUpdate<KategoriType>,
         IDelete<IKategoriKey>,
         IGetDataMayBe<KategoriType, IKategoriKey>,
-        IListDataMayBe<KategoriType>
+        IListDataMayBe<KategoriType, IServerId>
     {
-        void Delete();
+        void Delete(IServerId server);
     }
 }

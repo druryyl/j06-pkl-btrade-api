@@ -4,7 +4,7 @@ using MediatR;
 
 namespace btrade.application.UseCase
 {
-    public record KategoriListQuery() : IRequest<IEnumerable<KategoriType>>;
+    public record KategoriListQuery(string ServerId) : IRequest<IEnumerable<KategoriType>>, IServerId;
 
     public class KategoriListQueryHandler : IRequestHandler<KategoriListQuery, IEnumerable<KategoriType>>
     {
@@ -17,7 +17,7 @@ namespace btrade.application.UseCase
 
         public Task<IEnumerable<KategoriType>> Handle(KategoriListQuery request, CancellationToken cancellationToken)
         {
-            var listData = _kategoriDal.ListData();
+            var listData = _kategoriDal.ListData(request);
             return Task.FromResult(listData.HasValue
                 ? listData.Value
                 : Enumerable.Empty<KategoriType>());

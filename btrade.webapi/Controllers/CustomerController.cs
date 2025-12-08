@@ -18,17 +18,18 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> ListData()
+    [Route("{serverId}")]
+    public async Task<IActionResult> ListData(string serverId)
     {
-        var query = new CustomerListDataQuery();
+        var query = new CustomerListDataQuery(serverId);
         var response = await _mediator.Send(query);
         return Ok(new JSendOk(response));
     }
     [HttpGet]
-    [Route("Updated")]
-    public async Task<IActionResult> ListDataUpdated()
+    [Route("Updated/{serverId}")]
+    public async Task<IActionResult> ListDataUpdated(string serverId)
     {
-        var query = new CustomerListUpdatedQuery();
+        var query = new CustomerListUpdatedQuery(serverId);
         var response = await _mediator.Send(query);
         return Ok(new JSendOk(response));
     }

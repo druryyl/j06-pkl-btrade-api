@@ -9,7 +9,8 @@ namespace btrade.domain.Model;
 public record CustomerType(string CustomerId, string CustomerCode,
     string CustomerName, string Alamat, string Wilayah,
     double Latitude, double Longitude, double Accuracy,
-    long CoordinateTimeStamp, string CoordinateUser, bool IsUpdated) : ICustomerKey
+    long CoordinateTimeStamp, string CoordinateUser, bool IsUpdated,
+    string ServerId) : ICustomerKey
 {
     public CustomerType SetLocation(double lat, double lon, double accuracy, long coordinateTimeStamp,
         string coordinateUser)
@@ -27,8 +28,8 @@ public record CustomerType(string CustomerId, string CustomerCode,
     }
 }
 
-public record CustomerKey(string CustomerId) : ICustomerKey;
-public interface ICustomerKey
+public record CustomerKey(string CustomerId, string ServerId) : ICustomerKey;
+public interface ICustomerKey : IServerId
 {
     string CustomerId { get; }
 }

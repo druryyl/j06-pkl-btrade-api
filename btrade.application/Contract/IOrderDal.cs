@@ -14,8 +14,8 @@ namespace btrade.application.Contract
         IUpdate<OrderModel>,
         IDelete<IOrderKey>,
         IGetDataMayBe<OrderModel, IOrderKey>,
-        IListDataMayBe<OrderModel, Periode>
+        IListDataMayBe<OrderModel, Periode, IServerId>
     {
-        void Delete();
+        void Delete(IServerId server);
     }
 }

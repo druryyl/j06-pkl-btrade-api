@@ -57,6 +57,7 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="InventoryContext\" />
+    <Folder Include="LocationContext" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="InventoryContext\BTRADE_Brg.sql" />
@@ -68,5 +69,6 @@
     <Build Include="InventoryContext\BTRADE_Wilayah.sql" />
     <Build Include="InventoryContext\BTRADE_Order.sql" />
     <Build Include="InventoryContext\BTRADE_OrderItem.sql" />
+    <Build Include="LocationContext\BTRADE_CheckIn.sql" />
   </ItemGroup>
 </Project>

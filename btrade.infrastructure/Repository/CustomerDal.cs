@@ -24,10 +24,12 @@ public class CustomerDal : ICustomerDal
         const string sql = @"
             INSERT INTO BTRADE_Customer(
                 CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
-                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated)
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated, 
+                ServerId)
             VALUES (
                 @CustomerId, @CustomerCode, @CustomerName, @Alamat, @Wilayah,
-                @Latitude, @Longitude, @Accuracy, @CoordinateTimeStamp, @CoordinateUser, @IsUpdated)";
+                @Latitude, @Longitude, @Accuracy, @CoordinateTimeStamp, @CoordinateUser, @IsUpdated,
+                @ServerId)";
 
         var dp = new DynamicParameters();
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
@@ -42,6 +44,8 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@CoordinateTimeStamp", model.CoordinateTimeStamp, SqlDbType.BigInt);
         dp.AddParam("@CoordinateUser", model.CoordinateUser, SqlDbType.VarChar);
         dp.AddParam("@IsUpdated", model.IsUpdated, SqlDbType.Bit);
+
+        dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -62,9 +66,11 @@ public class CustomerDal : ICustomerDal
                 Accuracy = @Accuracy,
                 CoordinateTimeStamp = @CoordinateTimeStamp,
                 CoordinateUser = @CoordinateUser,
-                IsUpdated = @IsUpdated
+                IsUpdated = @IsUpdated,
+                ServerId = @ServerId
             WHERE
-                CustomerId = @CustomerId";
+                CustomerId = @CustomerId
+                AND ServerId = @ServerId ";
 
         var dp = new DynamicParameters();
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
@@ -79,6 +85,7 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@CoordinateTimeStamp", model.CoordinateTimeStamp, SqlDbType.BigInt);
         dp.AddParam("@CoordinateUser", model.CoordinateUser, SqlDbType.VarChar);
         dp.AddParam("@IsUpdated", model.IsUpdated, SqlDbType.Bit);
+        dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -90,20 +97,27 @@ public class CustomerDal : ICustomerDal
             DELETE FROM
                 BTRADE_Customer
             WHERE
-                CustomerId = @CustomerId";
+                CustomerId = @CustomerId
+                AND ServerId = @ServerId ";
 
         var dp = new DynamicParameters();
         dp.AddParam("@CustomerId", key.CustomerId, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
     }
 
-    public void Delete()
+    public void Delete(IServerId server)
     {
         const string sql = @"
             DELETE FROM
-                BTRADE_Customer";
+                BTRADE_Customer
+            WHERE
+                ServerId = @ServerId";
+
+        var dp = new DynamicParameters();
+        dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql);
@@ -115,29 +129,37 @@ public class CustomerDal : ICustomerDal
         const string sql = @"
             SELECT
                 CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
-                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated,
+                ServerId
             FROM
                 BTRADE_Customer
             WHERE
-                CustomerId = @CustomerId";
+                CustomerId = @CustomerId
+                AND ServerId = @ServerId";
 
         var dp = new DynamicParameters();
         dp.AddParam("@CustomerId", key.CustomerId, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return MayBe.From(conn.ReadSingle<CustomerType>(sql, dp));
     }
 
-    public MayBe<IEnumerable<CustomerType>> ListData()
+    public MayBe<IEnumerable<CustomerType>> ListData(IServerId server)
     {
         const string sql = @"
             SELECT
                 CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
                 Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated
             FROM
-                BTRADE_Customer";
+                BTRADE_Customer
+            WHERE
+                ServerId = @ServerId ";
+
+        var dp = new DynamicParameters();
+        dp.AddParam(@"ServerId", server.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        return MayBe.From(conn.Read<CustomerType>(sql));
+        return MayBe.From(conn.Read<CustomerType>(sql, dp));
     }
 }

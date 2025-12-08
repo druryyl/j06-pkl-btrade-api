@@ -18,9 +18,10 @@ public class SalesPersonController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> ListData()
+    [Route("{serverId")]
+    public async Task<IActionResult> ListData(string serverId)
     {
-        var query = new SalesPersonListDataQuery();
+        var query = new SalesPersonListDataQuery(serverId);
         var response = await _mediator.Send(query);
         return Ok(new JSendOk(response));
     }

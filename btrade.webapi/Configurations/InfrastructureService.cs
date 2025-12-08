@@ -23,7 +23,6 @@ public static class InfrastructureService
             .AddMemoryCache();
 
         services
-            .Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.SECTION_NAME))
             .Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.SECTION_NAME));
             
         services

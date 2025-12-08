@@ -4,7 +4,7 @@ using MediatR;
 
 namespace btrade.application.UseCase
 {
-    public record BrgListDataQuery() : IRequest<IEnumerable<BrgType>>;
+    public record BrgListDataQuery(string ServerId) : IRequest<IEnumerable<BrgType>>, IServerId;
 
     public class BrgListDataHandler : IRequestHandler<BrgListDataQuery, IEnumerable<BrgType>>
     {
@@ -16,7 +16,7 @@ namespace btrade.application.UseCase
 
         public Task<IEnumerable<BrgType>> Handle(BrgListDataQuery request, CancellationToken cancellationToken)
         {
-            var listData = _brgDal.ListData();
+            var listData = _brgDal.ListData(request);
             return Task.FromResult(listData.HasValue
                 ? listData.Value
                 : Enumerable.Empty<BrgType>());

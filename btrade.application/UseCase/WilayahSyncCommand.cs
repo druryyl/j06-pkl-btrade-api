@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace btrade.application.UseCase
 {
-    public record WilayahSyncCommand(IEnumerable<WilayahType> ListWilayah) : IRequest<Unit>;
+    public record WilayahSyncCommand(IEnumerable<WilayahType> ListWilayah, string ServerId) : IRequest<Unit>, IServerId;
     public class WilayahSyncHandler : IRequestHandler<WilayahSyncCommand, Unit>
     {
         private readonly IWilayahDal _wilayahDal;
@@ -24,7 +24,7 @@ namespace btrade.application.UseCase
         {
             using var trans = TransHelper.NewScope();
 
-            _wilayahDal.Delete();
+            _wilayahDal.Delete(request);
 
             foreach (var item in request.ListWilayah)
             {
