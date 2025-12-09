@@ -99,10 +99,12 @@ public class SalesPersonDal : ISalesPersonDal
             FROM
                 BTRADE_SalesPerson
             WHERE
-                SalesPersonId = @SalesPersonId";
+                SalesPersonId = @SalesPersonId
+                AND ServerId = @ServerId";
 
         var dp = new DynamicParameters();
         dp.AddParam("@SalesPersonId", key.SalesPersonId, SqlDbType.VarChar);
+        dp.AddParam("@ServerId", key.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return MayBe.From(conn.ReadSingle<SalesPersonType>(sql, dp));
@@ -122,6 +124,6 @@ public class SalesPersonDal : ISalesPersonDal
         dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        return MayBe.From(conn.Read<SalesPersonType>(sql));
+        return MayBe.From(conn.Read<SalesPersonType>(sql, dp));
     }
 }
