@@ -18,7 +18,7 @@ public class SalesPersonController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{serverId")]
+    [Route("{serverId}")]
     public async Task<IActionResult> ListData(string serverId)
     {
         var query = new SalesPersonListDataQuery(serverId);

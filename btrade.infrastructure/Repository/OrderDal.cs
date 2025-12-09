@@ -162,7 +162,8 @@ namespace btrade.infrastructure.Repository
             FROM
                 BTRADE_Order
             WHERE
-                OrderDate BETWEEN @Tgl1 AND @Tgl2";
+                OrderDate BETWEEN @Tgl1 AND @Tgl2
+                AND ServerId = @ServerId ";
 
             var dp = new DynamicParameters();
             dp.AddParam("@Tgl1", periode.Tgl1.ToString("yyyy-MM-dd"), SqlDbType.VarChar);

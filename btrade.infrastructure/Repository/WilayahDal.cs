@@ -30,7 +30,7 @@ namespace btrade.infrastructure.Repository
             INSERT INTO BTRADE_Wilayah(
                 WilayahId, WilayahName, ServerId
             ) VALUES (
-                @WilayahId, @WilayahName, ServerId)";
+                @WilayahId, @WilayahName, @ServerId)";
 
             var dp = new DynamicParameters();
             dp.AddParam("@WilayahId", model.WilayahId, SqlDbType.VarChar);

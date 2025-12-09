@@ -120,7 +120,7 @@ public class CustomerDal : ICustomerDal
         dp.AddParam("@ServerId", server.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        conn.Execute(sql);
+        conn.Execute(sql, dp);
     }
 
 
@@ -150,7 +150,8 @@ public class CustomerDal : ICustomerDal
         const string sql = @"
             SELECT
                 CustomerId, CustomerCode, CustomerName, Alamat, Wilayah,
-                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated
+                Latitude, Longitude, Accuracy, CoordinateTimeStamp, CoordinateUser, IsUpdated,
+                ServerId
             FROM
                 BTRADE_Customer
             WHERE

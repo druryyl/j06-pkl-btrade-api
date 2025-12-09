@@ -26,7 +26,6 @@ namespace btrade.application.UseCase
 
         public Task<IEnumerable<CheckInType>> Handle(CheckInIncrementalDownloadQuery request, CancellationToken cancellationToken)
         {
-            // Get check-ins within date range that are still in DRAFT status
             var periode = new Periode(request.Tgl1.ToDate(DateFormatEnum.YMD), request.Tgl2.ToDate(DateFormatEnum.YMD));
             var checkIns = _checkInDal.ListData(periode, request)?.ToList() ?? new List<CheckInType>();
             if (checkIns.Count == 0)
