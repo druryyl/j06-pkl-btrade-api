@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace btrade.domain.Model;
+namespace btrade.domain.SalesFeature;
 
 public record CustomerType(string CustomerId, string CustomerCode,
     string CustomerName, string Alamat, string Wilayah,

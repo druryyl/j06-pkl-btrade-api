@@ -1,5 +1,5 @@
 ﻿using btrade.application.Contract;
-using btrade.domain.Model;
+using btrade.domain.SalesFeature;
 using btrade.infrastructure.Helpers;
 using Microsoft.Extensions.Options;
 using Nuna.Lib.DataAccessHelper;

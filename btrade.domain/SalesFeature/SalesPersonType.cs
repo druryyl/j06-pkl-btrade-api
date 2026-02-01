@@ -1,10 +1,11 @@
-﻿using System;
+﻿using btrade.domain.SalesFeature;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace btrade.domain.Model;
+namespace btrade.domain.SalesFeature;
 
 public record SalesPersonType(string SalesPersonId, string SalesPersonCode,
     string SalesPersonName, string ServerId) : ISalesPersonKey;
