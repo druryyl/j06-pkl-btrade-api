@@ -1,4 +1,4 @@
-﻿namespace btrade.domain.Model;
+﻿namespace btrade.domain.SalesFeature;
 
 public record BrgType(string BrgId, string BrgCode, string BrgName, 
     string KategoriName,  string SatBesar, string SatKecil, int Konversi,

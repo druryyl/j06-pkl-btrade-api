@@ -1,5 +1,5 @@
 ﻿using btrade.domain.CheckInFeature;
-using btrade.domain.Model;
+using btrade.domain.SalesFeature;
 using Nuna.Lib.DataAccessHelper;
 using Nuna.Lib.PatternHelper;
 using Nuna.Lib.ValidationHelper;

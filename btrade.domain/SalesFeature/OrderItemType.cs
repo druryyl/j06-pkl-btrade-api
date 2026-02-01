@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace btrade.domain.Model
+namespace btrade.domain.SalesFeature
 {
     public record OrderItemType(
         string OrderId,

@@ -1,5 +1,5 @@
 ﻿using btrade.application.Contract;
-using btrade.domain.Model;
+using btrade.domain.SalesFeature;
 using MediatR;
 using System;
 using System.Collections.Generic;
