@@ -14,7 +14,7 @@ namespace btrade.application.WarehouseFreature
         IUpdate<PackingOrderModel>,
         IDelete<IPackingOrderKey>,
         IGetData<PackingOrderModel, IPackingOrderKey>,
-        IListData<PackingOrderModel, Periode>
+        IListData<PackingOrderModel, DateTime, string>
     {
     }
 }

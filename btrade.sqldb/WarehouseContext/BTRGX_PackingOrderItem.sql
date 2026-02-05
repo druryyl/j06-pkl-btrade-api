@@ -5,11 +5,11 @@
 	BrgId VARCHAR(6) NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_BrgId DEFAULT (''),
 	BrgCode VARCHAR(20) NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_BrgCode DEFAULT (''),
 	BrgName VARCHAR(100) NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_BrgName DEFAULT (''),
+	KategoriName VARCHAR(100) NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_KategoriName DEFAULT (''),
 	QtyBesar INT NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_QtyBesar DEFAULT (0),
 	SatBesar VARCHAR(10) NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_SatBesar DEFAULT (''),
 	QtyKecil INT NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_QtyKecil DEFAULT (0),
 	SatKecil VARCHAR(10) NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_SatKecil DEFAULT (''),
 
-	WarhouseCode VARCHAR(6) NOT NULL CONSTRAINT DF_BTRGX_PackingOrderItem_WarehouseCode DEFAULT (''),
 	CONSTRAINT PK_BTRGX_PackingOrderItem PRIMARY KEY CLUSTERED (PackingOrderId, NoUrut)
 )

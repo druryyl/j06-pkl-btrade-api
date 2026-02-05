@@ -9,10 +9,9 @@ namespace btrade.domain.WarehouseFeature
 {
     public class PackingOrderItemModel
     {
-        public string PackingOrderId { get; }
 
         public PackingOrderItemModel(string packingOrderId, int noUrut, 
-            string brgId, string brgCode, string brgName, 
+            string brgId, string brgCode, string brgName, string kategoriName,
             int qtyBesar, string satBesar, int qtyKecil, string satKecil)
         {
             PackingOrderId = packingOrderId;
@@ -20,16 +19,19 @@ namespace btrade.domain.WarehouseFeature
             BrgId = brgId;
             BrgCode = brgCode;
             BrgName = brgName;
+            KategoriName = kategoriName;
             QtyBesar = qtyBesar;
             SatBesar = satBesar;
             QtyKecil = qtyKecil;
             SatKecil = satKecil;
         }
 
+        public string PackingOrderId { get; }
         public int NoUrut { get; }
         public string BrgId { get; }
         public string BrgCode { get; }
         public string BrgName { get; }
+        public string KategoriName { get; }
         public int QtyBesar { get; }
         public string SatBesar { get; }
         public int QtyKecil { get; }

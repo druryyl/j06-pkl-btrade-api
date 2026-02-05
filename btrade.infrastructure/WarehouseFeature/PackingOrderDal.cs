@@ -22,41 +22,41 @@ public class PackingOrderDal : IPackingOrderDal
     {
         const string sql = @"
             INSERT INTO BTRGX_PackingOrder(
-                PackingOrderId, PackingOrderDate, PackingOrderCode,
+                PackingOrderId, PackingOrderDate,
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
-                FakturId, FakturCode, FakturDate, AdminName,
                 Latitude, Longitude, Accuracy,
-                WarehouseCode, OfficeCode)
+                FakturId, FakturCode, FakturDate, AdminName,
+                WarehouseCode, OfficeCode, UpdateTimestamp, DownloadTimestamp)
             VALUES(
-                @PackingOrderId, @PackingOrderDate, @PackingOrderCode,
+                @PackingOrderId, @PackingOrderDate, 
                 @CustomerId, @CustomerCode, @CustomerName, @Alamat, @NoTelp,
-                @FakturId, @FakturCode, @FakturDate, @AdminName,
                 @Latitude, @Longitude, @Accuracy,
-                @WarehouseCode, @OfficeCode)
+                @FakturId, @FakturCode, @FakturDate, @AdminName,
+                @WarehouseCode, @OfficeCode, @UpdateTimestamp, @DownloadTimestamp)
             ";
 
         var dp = new DynamicParameters();
         dp.AddParam("@PackingOrderId", model.PackingOrderId, SqlDbType.VarChar);
         dp.AddParam("@PackingOrderDate", model.PackingOrderDate, SqlDbType.DateTime);
-        dp.AddParam("@PackingOrderCode", model.PackingOrderCode, SqlDbType.VarChar);
 
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
         dp.AddParam("@CustomerCode", model.CustomerCode, SqlDbType.VarChar);
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
         dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@NoTelp", model.NoTelp, SqlDbType.VarChar);
+        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Decimal);
+        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Decimal);
+        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Int);
 
         dp.AddParam("@FakturId", model.FakturId, SqlDbType.VarChar);
         dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);
         dp.AddParam("@FakturDate", model.FakturDate, SqlDbType.DateTime);
         dp.AddParam("@AdminName", model.AdminName, SqlDbType.VarChar);
 
-        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Decimal);
-        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Decimal);
-        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Int);
-
         dp.AddParam("@WarehouseCode", model.WarehouseCode, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
+        dp.AddParam("@UpdateTimestamp", model.UpdateTimestamp, SqlDbType.DateTime);
+        dp.AddParam("@DownloadTimestamp", model.DownloadTimestamp, SqlDbType.DateTime);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -68,21 +68,26 @@ public class PackingOrderDal : IPackingOrderDal
             UPDATE BTRGX_PackingOrder
             SET
                 PackingOrderDate = @PackingOrderDate,
-                PackingOrderCode = @PackingOrderCode,
+
                 CustomerId = @CustomerId,
                 CustomerCode = @CustomerCode,
                 CustomerName = @CustomerName,
                 Alamat = @Alamat,
                 NoTelp = @NoTelp,
+                Latitude = @Latitude,
+                Longitude = @Longitude,
+                Accuracy = @Accuracy,
+
                 FakturId = @FakturId,
                 FakturCode = @FakturCode,
                 FakturDate = @FakturDate,
                 AdminName = @AdminName,
-                Latitude = @Latitude,
-                Longitude = @Longitude,
-                Accuracy = @Accuracy,
+
                 WarehouseCode = @WarehouseCode,
-                OfficeCode = @OfficeCode
+                OfficeCode = @OfficeCode,
+                UpdateTimestamp = @UpdateTimestamp,
+                DownloadTimestamp = @DownloadTimestamp  
+                
             WHERE
                 PackingOrderId = @PackingOrderId
             ";
@@ -90,25 +95,25 @@ public class PackingOrderDal : IPackingOrderDal
         var dp = new DynamicParameters();
         dp.AddParam("@PackingOrderId", model.PackingOrderId, SqlDbType.VarChar);
         dp.AddParam("@PackingOrderDate", model.PackingOrderDate, SqlDbType.DateTime);
-        dp.AddParam("@PackingOrderCode", model.PackingOrderCode, SqlDbType.VarChar);
 
         dp.AddParam("@CustomerId", model.CustomerId, SqlDbType.VarChar);
         dp.AddParam("@CustomerCode", model.CustomerCode, SqlDbType.VarChar);
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
         dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@NoTelp", model.NoTelp, SqlDbType.VarChar);
+        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Decimal);
+        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Decimal);
+        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Int);
 
         dp.AddParam("@FakturId", model.FakturId, SqlDbType.VarChar);
         dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);
         dp.AddParam("@FakturDate", model.FakturDate, SqlDbType.DateTime);
         dp.AddParam("@AdminName", model.AdminName, SqlDbType.VarChar);
 
-        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Decimal);
-        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Decimal);
-        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Int);
-
         dp.AddParam("@WarehouseCode", model.WarehouseCode, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
+        dp.AddParam("@UpdateTimestamp", model.UpdateTimestamp, SqlDbType.DateTime);
+        dp.AddParam("@DownloadTimestamp", model.DownloadTimestamp, SqlDbType.DateTime);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -132,11 +137,11 @@ public class PackingOrderDal : IPackingOrderDal
     {
         const string sql = @"
             SELECT
-                PackingOrderId, PackingOrderDate, PackingOrderCode,
+                PackingOrderId, PackingOrderDate, 
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
-                FakturId, FakturCode, FakturDate, AdminName,
                 Latitude, Longitude, Accuracy,
-                WarehouseCode, OfficeCode
+                FakturId, FakturCode, FakturDate, AdminName,
+                WarehouseCode, OfficeCode, UpdateTimestamp, DownloadTimestamp
             FROM BTRGX_PackingOrder
             WHERE PackingOrderId = @PackingOrderId
             ";
@@ -148,22 +153,24 @@ public class PackingOrderDal : IPackingOrderDal
         return conn.ReadSingle<PackingOrderModel>(sql, dp);
     }
 
-    public IEnumerable<PackingOrderModel> ListData(Periode filter)
+    public IEnumerable<PackingOrderModel> ListData(DateTime timeStamp, string warehouseCode)
     {
         const string sql = @"
-            SELECT
-                PackingOrderId, PackingOrderDate, PackingOrderCode,
+            SELECT TOP 500
+                PackingOrderId, PackingOrderDate, 
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
-                FakturId, FakturCode, FakturDate, AdminName,
                 Latitude, Longitude, Accuracy,
-                WarehouseCode, OfficeCode
+                FakturId, FakturCode, FakturDate, AdminName,
+                WarehouseCode, OfficeCode, UpdateTimestamp, DownloadTimestamp
             FROM BTRGX_PackingOrder
-            WHERE PackingOrderDate BETWEEN @Tgl1 AND @Tgl1
+            WHERE UpdateTimestamp >= @Timestamp 
+                AND WarehouseCode = @WarehouseCode
+            ORDER BY PackingOrderId ASC    
             ";
 
         var dp = new DynamicParameters();
-        dp.AddParam("@Tgl1", filter.Tgl1, SqlDbType.DateTime);
-        dp.AddParam("@Tgl2", filter.Tgl2, SqlDbType.DateTime);
+        dp.AddParam("@Timestamp", timeStamp, SqlDbType.DateTime);
+        dp.AddParam("@WarehouseCode", warehouseCode, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return conn.Read<PackingOrderModel>(sql, dp);
