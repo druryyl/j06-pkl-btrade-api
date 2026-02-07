@@ -34,6 +34,8 @@ public class PackingOrderItemDal : IPackingOrderItemDal
             bcp.AddMap("SatBesar", "SatBesar");
             bcp.AddMap("QtyKecil", "QtyKecil");
             bcp.AddMap("SatKecil", "SatKecil");
+            bcp.AddMap("DepoId", "DepoId");
+
 
             var fetched = listModel.ToList();
             bcp.BatchSize = fetched.Count;
@@ -63,7 +65,7 @@ public class PackingOrderItemDal : IPackingOrderItemDal
                 PackingOrderId, NoUrut,
                 BrgId, BrgCode, BrgName, KategoriName,
                 QtyBesar, SatBesar,
-                QtyKecil, SatKecil
+                QtyKecil, SatKecil, DepoId
             FROM BTRGX_PackingOrderItem
             WHERE PackingOrderId = @PackingOrderId
             ORDER BY NoUrut

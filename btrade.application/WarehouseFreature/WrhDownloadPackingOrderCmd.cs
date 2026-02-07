@@ -17,7 +17,7 @@ namespace btrade.application.WarehouseFreature
         IEnumerable<WrhDownloadPackingOrderRespDtl> ListItem);
     public record WrhDownloadPackingOrderRespDtl(
         int NoUrut, string BrgId, string BrgCode, string BrgNme, string KategoriName,
-        int QtyBesar, string SatBesar, int QtyKecil, string SatKecil);
+        int QtyBesar, string SatBesar, int QtyKecil, string SatKecil, string depoId);
 
     public class  WrhDownloadPackingOrderHandler : IRequestHandler<WrhDownloadPackingOrderCmd, WrhDownloadPackingOrderResp> 
     {
@@ -78,7 +78,8 @@ namespace btrade.application.WarehouseFreature
                         i.QtyBesar,
                         i.SatBesar,
                         i.QtyKecil,
-                        i.SatKecil
+                        i.SatKecil,
+                        i.DepoId
                     ))
                 ));
 

@@ -21,7 +21,7 @@ namespace btrade.application.WarehouseFreature
         int NoUrut, string BrgId, string BrgCode, 
         string BrgNme, string KategoriName,
         int QtyBesar, string SatBesar,
-        int QtyKecil, string SatKecil);
+        int QtyKecil, string SatKecil, string DepoId);
 
     public class WrhSavePackingOrderCmdHandler : IRequestHandler<WrhSavePackingOrderCmd>
     {
@@ -40,7 +40,7 @@ namespace btrade.application.WarehouseFreature
                 req.PackingOrderId,
                 item.NoUrut, item.BrgId, item.BrgNme, item.BrgCode, item.KategoriName,
                 item.QtyBesar, item.SatBesar,
-                item.QtyKecil, item.SatKecil)).ToList();
+                item.QtyKecil, item.SatKecil, item.DepoId)).ToList();
             var timestampNow = DateTime.Now;
             var packingOrder = new PackingOrderModel(
                 req.PackingOrderId, req.PackingOrderDate.ToDate(DateFormatEnum.YMD_HMS), 
