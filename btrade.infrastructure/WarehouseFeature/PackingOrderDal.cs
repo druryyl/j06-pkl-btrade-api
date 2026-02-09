@@ -43,9 +43,9 @@ public class PackingOrderDal : IPackingOrderDal
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
         dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@NoTelp", model.NoTelp, SqlDbType.VarChar);
-        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Decimal);
-        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Decimal);
-        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Int);
+        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Float);
+        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Float);
+        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Float);
 
         dp.AddParam("@FakturId", model.FakturId, SqlDbType.VarChar);
         dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);
@@ -96,9 +96,9 @@ public class PackingOrderDal : IPackingOrderDal
         dp.AddParam("@CustomerName", model.CustomerName, SqlDbType.VarChar);
         dp.AddParam("@Alamat", model.Alamat, SqlDbType.VarChar);
         dp.AddParam("@NoTelp", model.NoTelp, SqlDbType.VarChar);
-        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Decimal);
-        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Decimal);
-        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Int);
+        dp.AddParam("@Latitude", model.Latitude, SqlDbType.Float);
+        dp.AddParam("@Longitude", model.Longitude, SqlDbType.Float);
+        dp.AddParam("@Accuracy", model.Accuracy, SqlDbType.Float);
 
         dp.AddParam("@FakturId", model.FakturId, SqlDbType.VarChar);
         dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);

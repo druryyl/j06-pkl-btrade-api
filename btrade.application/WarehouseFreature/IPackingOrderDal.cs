@@ -21,8 +21,8 @@ namespace btrade.application.WarehouseFreature
     public class PackingOrderView : IPackingOrderKey
     {
         public PackingOrderView(string packingOrderId, DateTime packingOrderDate, 
-            string customerId, string customerCode, string customerName, string alamat, string noTelp, 
-            decimal latitude, decimal longitude, int accuracy, 
+            string customerId, string customerCode, string customerName, string alamat, string noTelp,
+            double latitude, double longitude, double accuracy, 
             string fakturId, string fakturCode, DateTime fakturDate, string adminName, 
             string warehouseDesc, string officeCode, DateTime updateTimestamp)
         {
@@ -53,9 +53,9 @@ namespace btrade.application.WarehouseFreature
         public string CustomerName { get; private set; }
         public string Alamat { get; private set; }
         public string NoTelp { get; private set; }
-        public decimal Latitude { get; private set; }
-        public decimal Longitude { get; private set; }
-        public int Accuracy { get; private set; }
+        public double Latitude { get; private set; }
+        public double Longitude { get; private set; }
+        public double Accuracy { get; private set; }
 
         public string FakturId { get; private set; }
         public string FakturCode { get; private set; }

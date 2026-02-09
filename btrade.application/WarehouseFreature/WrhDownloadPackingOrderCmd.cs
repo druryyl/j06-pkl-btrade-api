@@ -11,7 +11,7 @@ namespace btrade.application.WarehouseFreature
     public record WrhDownloadPackingOrderRespHdr(
         string PackingOrderId, string PackingOrderDate,
         string CustomerId, string CustomerCode, string CustomerName, string Alamat, string NoTelp,
-        decimal Latitude, decimal Longitude, int Accuracy,
+        double Latitude, double Longitude, double Accuracy,
         string FakturId, string FakturCode, string FakturDate, string AdminName,
         string WarehouseDesc, string OfficeCode,
         IEnumerable<WrhDownloadPackingOrderRespDtl> ListItem);

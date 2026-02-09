@@ -9,7 +9,7 @@ namespace btrade.application.WarehouseFreature
         string PackingOrderId, string PackingOrderDate, 
         string CustomerId, string CustomerCode, string CustomerName, string Alamat, string NoTelp,
         string FakturId, string FakturCode, string FakturDate, string AdminName,
-        decimal Latitude, decimal Longitude, int Accuracy,
+        double Latitude, double Longitude, double Accuracy,
         string OfficeCode,
         IEnumerable<WrhSavePackingOrderItemCmd> ListItem) : IRequest, IPackingOrderKey;
     

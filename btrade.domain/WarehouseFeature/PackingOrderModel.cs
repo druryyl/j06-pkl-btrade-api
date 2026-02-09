@@ -14,7 +14,7 @@ namespace btrade.domain.WarehouseFeature
 
         public PackingOrderModel(string packingOrderId, DateTime packingOrderDate, 
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
-            decimal latitude, decimal longitude, int accuracy,
+            double latitude, double longitude, double accuracy,
             string fakturId, string fakturCode, DateTime fakturDate, string adminName, 
             string officeCode, 
             IEnumerable<PackingOrderItemModel> listItem,
@@ -47,7 +47,7 @@ namespace btrade.domain.WarehouseFeature
         //  constructor ini untuk kepentingan DTO (baca dari database)
         public PackingOrderModel(string packingOrderId, DateTime packingOrderDate,
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
-            decimal latitude, decimal longitude, int accuracy,
+            double latitude, double longitude, double accuracy,
             string fakturId, string fakturCode, DateTime fakturDate, string adminName,
             string warehouseDesc, string officeCode)
         {
@@ -82,9 +82,9 @@ namespace btrade.domain.WarehouseFeature
         public string CustomerName { get; private set; }
         public string Alamat { get; private set; }
         public string NoTelp { get; private set; }
-        public decimal Latitude { get; private set; }
-        public decimal Longitude { get; private set; }
-        public int Accuracy { get; private set; }
+        public double Latitude { get; private set; }
+        public double Longitude { get; private set; }
+        public double Accuracy { get; private set; }
 
         public string FakturId { get; private set; }
         public string FakturCode { get; private set; }
