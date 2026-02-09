@@ -15,7 +15,7 @@ namespace btrade.application.WarehouseFreature
     
     public record WrhSavePackingOrderItemCmd(
         int NoUrut, string BrgId, string BrgCode, 
-        string BrgNme, string KategoriName,
+        string BrgNme, string KategoriName, string SupplierName,
         int QtyBesar, string SatBesar,
         int QtyKecil, string SatKecil, string DepoId);
 
@@ -37,7 +37,7 @@ namespace btrade.application.WarehouseFreature
         {
             var listItem = req.ListItem.Select(item => new PackingOrderItemModel(
                 req.PackingOrderId,
-                item.NoUrut, item.BrgId, item.BrgNme, item.BrgCode, item.KategoriName,
+                item.NoUrut, item.BrgId, item.BrgNme, item.BrgCode, item.KategoriName, item.SupplierName,
                 item.QtyBesar, item.SatBesar,
                 item.QtyKecil, item.SatKecil, item.DepoId)).ToList();
 

@@ -30,12 +30,12 @@ public class PackingOrderItemDal : IPackingOrderItemDal
             bcp.AddMap("BrgCode", "BrgCode");
             bcp.AddMap("BrgName", "BrgName");
             bcp.AddMap("KategoriName", "KategoriName");
+            bcp.AddMap("SupplierName", "SupplierName");
             bcp.AddMap("QtyBesar", "QtyBesar");
             bcp.AddMap("SatBesar", "SatBesar");
             bcp.AddMap("QtyKecil", "QtyKecil");
             bcp.AddMap("SatKecil", "SatKecil");
             bcp.AddMap("DepoId", "DepoId");
-
 
             var fetched = listModel.ToList();
             bcp.BatchSize = fetched.Count;
@@ -63,7 +63,7 @@ public class PackingOrderItemDal : IPackingOrderItemDal
         const string sql = @"
             SELECT
                 PackingOrderId, NoUrut,
-                BrgId, BrgCode, BrgName, KategoriName,
+                BrgId, BrgCode, BrgName, KategoriName, SupplierName,
                 QtyBesar, SatBesar,
                 QtyKecil, SatKecil, DepoId
             FROM BTRADE_PackingOrderItem
@@ -83,7 +83,7 @@ public class PackingOrderItemDal : IPackingOrderItemDal
         const string sql = @"
             SELECT
                 aa.PackingOrderId, aa.NoUrut,
-                aa.BrgId, aa.BrgCode, aa.BrgName, aa.KategoriName,
+                aa.BrgId, aa.BrgCode, aa.BrgName, aa.KategoriName, aa.SupplierName,
                 aa.QtyBesar, aa.SatBesar,
                 aa.QtyKecil, aa.SatKecil, aa.DepoId
             FROM 
