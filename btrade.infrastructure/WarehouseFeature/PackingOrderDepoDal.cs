@@ -9,37 +9,29 @@ using System.Data.SqlClient;
 
 namespace btrade.infrastructure.WarehouseFeature;
 
-public class PackingOrderItemDal : IPackingOrderItemDal
+public class PackingOrderDepoDal : IPackingOrderDepoDal
 {
     private readonly DatabaseOptions _opt;
 
-    public PackingOrderItemDal(IOptions<DatabaseOptions> opt)
+    public PackingOrderDepoDal(IOptions<DatabaseOptions> opt)
     {
         _opt = opt.Value;
     }
 
-    public void Insert(IEnumerable<PackingOrderItemModel> listModel)
+    public void Insert(IEnumerable<PackingOrderDepoModel> listModel)
     {
         using (var conn = new SqlConnection(ConnStringHelper.Get(_opt)))
         using (var bcp = new SqlBulkCopy(conn))
         {
             conn.Open();
             bcp.AddMap("PackingOrderId", "PackingOrderId");
-            bcp.AddMap("NoUrut", "NoUrut");
-            bcp.AddMap("BrgId", "BrgId");
-            bcp.AddMap("BrgCode", "BrgCode");
-            bcp.AddMap("BrgName", "BrgName");
-            bcp.AddMap("KategoriName", "KategoriName");
-            bcp.AddMap("QtyBesar", "QtyBesar");
-            bcp.AddMap("SatBesar", "SatBesar");
-            bcp.AddMap("QtyKecil", "QtyKecil");
-            bcp.AddMap("SatKecil", "SatKecil");
             bcp.AddMap("DepoId", "DepoId");
-
+            bcp.AddMap("UpdateTimestamp", "UpdateTimestamp");
+            bcp.AddMap("DownloadTimestamp", "DownloadTimestamp");
 
             var fetched = listModel.ToList();
             bcp.BatchSize = fetched.Count;
-            bcp.DestinationTableName = "dbo.BTRADE_PackingOrderItem";
+            bcp.DestinationTableName = "dbo.BTRADE_PackingOrderDepo";
             bcp.WriteToServer(fetched.AsDataTable());
         }
     }
@@ -47,7 +39,7 @@ public class PackingOrderItemDal : IPackingOrderItemDal
     public void Delete(IPackingOrderKey key)
     {
         const string sql = @"
-            DELETE FROM BTRADE_PackingOrderItem
+            DELETE FROM BTRADE_PackingOrderDepo
             WHERE PackingOrderId = @PackingOrderId
             ";
 
@@ -58,15 +50,13 @@ public class PackingOrderItemDal : IPackingOrderItemDal
         conn.Execute(sql, dp);
     }
 
-    public IEnumerable<PackingOrderItemModel> ListData(IPackingOrderKey filter)
+    public IEnumerable<PackingOrderDepoModel> ListData(IPackingOrderKey filter)
     {
         const string sql = @"
             SELECT
-                PackingOrderId, NoUrut,
-                BrgId, BrgCode, BrgName, KategoriName,
-                QtyBesar, SatBesar,
-                QtyKecil, SatKecil, DepoId
-            FROM BTRADE_PackingOrderItem
+                PackingOrderId, DepoId,
+                UpdateTimestamp, DownloadTimestamp  
+            FROM BTRADE_PackingOrderDepo
             WHERE PackingOrderId = @PackingOrderId
             ORDER BY NoUrut
             ";
@@ -75,6 +65,6 @@ public class PackingOrderItemDal : IPackingOrderItemDal
         dp.AddParam("@PackingOrderId", filter.PackingOrderId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        return conn.Read<PackingOrderItemModel>(sql, dp);
+        return conn.Read<PackingOrderDepoModel>(sql, dp);
     }
 }

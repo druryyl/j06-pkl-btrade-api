@@ -1,6 +1,5 @@
 ﻿using btrade.application.Contract;
 using btrade.domain.SalesFeature;
-using btrade.domain.SalesFeature;
 using MediatR;
 using Nuna.Lib.TransactionHelper;
 using Nuna.Lib.ValidationHelper;

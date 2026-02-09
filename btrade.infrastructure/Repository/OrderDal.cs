@@ -1,19 +1,13 @@
 ﻿using btrade.application.Contract;
 using btrade.domain.SalesFeature;
-using btrade.domain.SalesFeature;
 using btrade.infrastructure.Helpers;
 using Dapper;
 using Microsoft.Extensions.Options;
 using Nuna.Lib.DataAccessHelper;
 using Nuna.Lib.PatternHelper;
 using Nuna.Lib.ValidationHelper;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace btrade.infrastructure.Repository
 {

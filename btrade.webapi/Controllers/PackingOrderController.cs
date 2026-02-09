@@ -18,14 +18,14 @@ namespace btrade.webapi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        [Route("{startTimestamp}/{warehouseCode}/{pageSize}")]
-        public async Task<IActionResult> Download(string startTimestamp, string warehouseCode, int pageSize)
-        {
-            var query = new WrhDownloadPackingOrderCmd(startTimestamp, warehouseCode, pageSize);
-            var response = await _mediator.Send(query);
-            return Ok(new JSendOk(response));
-        }
+        //[HttpGet]
+        //[Route("{startTimestamp}/{warehouseCode}/{pageSize}")]
+        //public async Task<IActionResult> Download(string startTimestamp, string warehouseCode, int pageSize)
+        //{
+        //    var query = new WrhDownloadPackingOrderCmd(startTimestamp, warehouseCode, pageSize);
+        //    var response = await _mediator.Send(query);
+        //    return Ok(new JSendOk(response));
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Upload(WrhSavePackingOrderCmd cmd)

@@ -21,18 +21,18 @@ public class PackingOrderDal : IPackingOrderDal
     public void Insert(PackingOrderModel model)
     {
         const string sql = @"
-            INSERT INTO BTRGX_PackingOrder(
+            INSERT INTO BTRADE_PackingOrder(
                 PackingOrderId, PackingOrderDate,
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
                 Latitude, Longitude, Accuracy,
                 FakturId, FakturCode, FakturDate, AdminName,
-                WarehouseCode, OfficeCode, UpdateTimestamp, DownloadTimestamp)
+                WarehouseDesc, OfficeCode)
             VALUES(
                 @PackingOrderId, @PackingOrderDate, 
                 @CustomerId, @CustomerCode, @CustomerName, @Alamat, @NoTelp,
                 @Latitude, @Longitude, @Accuracy,
                 @FakturId, @FakturCode, @FakturDate, @AdminName,
-                @WarehouseCode, @OfficeCode, @UpdateTimestamp, @DownloadTimestamp)
+                @WarehouseDesc, @OfficeCode)
             ";
 
         var dp = new DynamicParameters();
@@ -53,10 +53,8 @@ public class PackingOrderDal : IPackingOrderDal
         dp.AddParam("@FakturDate", model.FakturDate, SqlDbType.DateTime);
         dp.AddParam("@AdminName", model.AdminName, SqlDbType.VarChar);
 
-        dp.AddParam("@WarehouseCode", model.WarehouseCode, SqlDbType.VarChar);
+        dp.AddParam("@WarehouseDesc", model.WarehouseDesc, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
-        dp.AddParam("@UpdateTimestamp", model.UpdateTimestamp, SqlDbType.DateTime);
-        dp.AddParam("@DownloadTimestamp", model.DownloadTimestamp, SqlDbType.DateTime);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -65,7 +63,7 @@ public class PackingOrderDal : IPackingOrderDal
     public void Update(PackingOrderModel model)
     {
         const string sql = @"
-            UPDATE BTRGX_PackingOrder
+            UPDATE BTRADE_PackingOrder
             SET
                 PackingOrderDate = @PackingOrderDate,
 
@@ -83,10 +81,8 @@ public class PackingOrderDal : IPackingOrderDal
                 FakturDate = @FakturDate,
                 AdminName = @AdminName,
 
-                WarehouseCode = @WarehouseCode,
-                OfficeCode = @OfficeCode,
-                UpdateTimestamp = @UpdateTimestamp,
-                DownloadTimestamp = @DownloadTimestamp  
+                WarehouseDesc = @WarehouseDesc,
+                OfficeCode = @OfficeCode
                 
             WHERE
                 PackingOrderId = @PackingOrderId
@@ -110,10 +106,8 @@ public class PackingOrderDal : IPackingOrderDal
         dp.AddParam("@FakturDate", model.FakturDate, SqlDbType.DateTime);
         dp.AddParam("@AdminName", model.AdminName, SqlDbType.VarChar);
 
-        dp.AddParam("@WarehouseCode", model.WarehouseCode, SqlDbType.VarChar);
+        dp.AddParam("@WarehouseDesc", model.WarehouseDesc, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
-        dp.AddParam("@UpdateTimestamp", model.UpdateTimestamp, SqlDbType.DateTime);
-        dp.AddParam("@DownloadTimestamp", model.DownloadTimestamp, SqlDbType.DateTime);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -122,7 +116,7 @@ public class PackingOrderDal : IPackingOrderDal
     public void Delete(IPackingOrderKey key)
     {
         const string sql = @"
-            DELETE FROM BTRGX_PackingOrder
+            DELETE FROM BTRADE_PackingOrder
             WHERE PackingOrderId = @PackingOrderId
             ";
 
@@ -141,8 +135,8 @@ public class PackingOrderDal : IPackingOrderDal
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
                 Latitude, Longitude, Accuracy,
                 FakturId, FakturCode, FakturDate, AdminName,
-                WarehouseCode, OfficeCode, UpdateTimestamp, DownloadTimestamp
-            FROM BTRGX_PackingOrder
+                WarehouseDesc, OfficeCode
+            FROM BTRADE_PackingOrder
             WHERE PackingOrderId = @PackingOrderId
             ";
 
@@ -153,24 +147,22 @@ public class PackingOrderDal : IPackingOrderDal
         return conn.ReadSingle<PackingOrderModel>(sql, dp);
     }
 
-    public IEnumerable<PackingOrderModel> ListData(DateTime timeStamp, string warehouseCode)
+    public IEnumerable<PackingOrderModel> ListData(DateTime timeStamp, string depoId)
     {
         const string sql = @"
             SELECT TOP 500
-                PackingOrderId, PackingOrderDate, 
-                CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
-                Latitude, Longitude, Accuracy,
-                FakturId, FakturCode, FakturDate, AdminName,
-                WarehouseCode, OfficeCode, UpdateTimestamp, DownloadTimestamp
-            FROM BTRGX_PackingOrder
+                aa.PackingOrderId, aa.PackingOrderDate, 
+                aa.CustomerId, aa.CustomerCode, aa.CustomerName, aa.Alamat, aa.NoTelp,
+                aa.Latitude, aa.Longitude, aa.Accuracy,
+                aa.FakturId, aa.FakturCode, aa.FakturDate, aa.AdminName,
+                aa.WarehouseDesc, aa.OfficeCode
+            FROM BTRADE_PackingOrder
             WHERE UpdateTimestamp >= @Timestamp 
-                AND WarehouseCode = @WarehouseCode
             ORDER BY PackingOrderId ASC    
             ";
 
         var dp = new DynamicParameters();
         dp.AddParam("@Timestamp", timeStamp, SqlDbType.DateTime);
-        dp.AddParam("@WarehouseCode", warehouseCode, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return conn.Read<PackingOrderModel>(sql, dp);

@@ -71,7 +71,8 @@
     <Build Include="SalesContext\BTRADE_Order.sql" />
     <Build Include="SalesContext\BTRADE_OrderItem.sql" />
     <Build Include="LocationContext\BTRADE_CheckIn.sql" />
-    <Build Include="WarehouseContext\BTRGX_PackingOrder.sql" />
-    <Build Include="WarehouseContext\BTRGX_PackingOrderItem.sql" />
+    <Build Include="WarehouseContext\BTRADE_PackingOrder.sql" />
+    <Build Include="WarehouseContext\BTRADE_PackingOrderItem.sql" />
+    <Build Include="WarehouseContext\BTRADE_PackingOrderDepo.sql" />
   </ItemGroup>
 </Project>

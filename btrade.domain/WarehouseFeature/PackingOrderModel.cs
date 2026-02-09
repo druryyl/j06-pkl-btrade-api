@@ -10,13 +10,15 @@ namespace btrade.domain.WarehouseFeature
     public class PackingOrderModel : IPackingOrderKey
     {
         private readonly List<PackingOrderItemModel> _listItem;
+        private readonly List<PackingOrderDepoModel> _listDepo;
 
         public PackingOrderModel(string packingOrderId, DateTime packingOrderDate, 
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             decimal latitude, decimal longitude, int accuracy,
             string fakturId, string fakturCode, DateTime fakturDate, string adminName, 
-            string warehouseCode, string officeCode, DateTime updateTimestamp, DateTime downloadTimestamp,
-            IEnumerable<PackingOrderItemModel> listItem)
+            string officeCode, 
+            IEnumerable<PackingOrderItemModel> listItem,
+            IEnumerable<PackingOrderDepoModel> listDepo)
         {
             PackingOrderId = packingOrderId;
             PackingOrderDate = packingOrderDate;
@@ -35,19 +37,19 @@ namespace btrade.domain.WarehouseFeature
             FakturDate = fakturDate;
             AdminName = adminName;
 
-            WarehouseCode = warehouseCode;
             OfficeCode = officeCode;
-            UpdateTimestamp = updateTimestamp;
-            DownloadTimestamp = downloadTimestamp;
 
             _listItem = listItem.ToList();
+            _listDepo = listDepo.ToList();
+            WarehouseDesc = string.Join(", ", _listDepo.Select(x => x.DepoId));
         }
 
+        //  constructor ini untuk kepentingan DTO (baca dari database)
         public PackingOrderModel(string packingOrderId, DateTime packingOrderDate,
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             decimal latitude, decimal longitude, int accuracy,
             string fakturId, string fakturCode, DateTime fakturDate, string adminName,
-            string warehouseCode, string officeCode, DateTime updateTimestamp, DateTime downloadTimestamp)
+            string warehouseDesc, string officeCode)
         {
             PackingOrderId = packingOrderId;
             PackingOrderDate = packingOrderDate;
@@ -66,11 +68,10 @@ namespace btrade.domain.WarehouseFeature
             FakturDate = fakturDate;
             AdminName = adminName;
 
-            WarehouseCode = warehouseCode;
+            WarehouseDesc = warehouseDesc;
             OfficeCode = officeCode;
-            UpdateTimestamp = updateTimestamp;
-            DownloadTimestamp = downloadTimestamp;
             _listItem = new List<PackingOrderItemModel>();
+            _listDepo = new List<PackingOrderDepoModel>();
         }
 
         public string PackingOrderId { get; private set; }
@@ -90,21 +91,33 @@ namespace btrade.domain.WarehouseFeature
         public DateTime FakturDate { get; private set; }
         public string AdminName { get; private set; }
 
-        public string WarehouseCode { get; private set; }
+        public string WarehouseDesc { get; private set; }
         public string OfficeCode { get; private set; }
-        public DateTime UpdateTimestamp { get; private set; }
-        public DateTime DownloadTimestamp { get; private set; }
 
         public IEnumerable<PackingOrderItemModel> ListItem => _listItem;
+        public IEnumerable<PackingOrderDepoModel> ListDepo => _listDepo;
 
-        public void SetDownloadTimestamp(DateTime timestamp)
+        public void SetDownloadTimestamp(DateTime timestamp, string depoId)
         {
-            DownloadTimestamp = timestamp;
+            foreach(var item in _listDepo)
+            {
+                if (item.DepoId == depoId)
+                {
+                    item.DownloadedAt(timestamp);
+                    break;
+                }
+            }
         }
         public void SetListItem(IEnumerable<PackingOrderItemModel> listItem)
         {
             _listItem.Clear();
             _listItem.AddRange(listItem);
+            var listDepo = _listItem
+                .GroupBy(x => x.DepoId)
+                .Select(g => new PackingOrderDepoModel(PackingOrderId, g.Key, DateTime.Now, new DateTime(3000,1,1)))
+                .ToList();
+            _listDepo.Clear();
+            _listDepo.AddRange(listDepo);
         }
     }
 

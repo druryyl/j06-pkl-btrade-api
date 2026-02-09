@@ -1,5 +1,6 @@
 ﻿using btrade.domain.WarehouseFeature;
 using MediatR;
+using Nuna.Lib.TransactionHelper;
 using Nuna.Lib.ValidationHelper;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace btrade.application.WarehouseFreature
         string CustomerId, string CustomerCode, string CustomerName, string Alamat, string NoTelp,
         string FakturId, string FakturCode, string FakturDate, string AdminName,
         decimal Latitude, decimal Longitude, int Accuracy,
-        string WarehouseCode, string OfficeCode,
+        string OfficeCode,
         IEnumerable<WrhSavePackingOrderItemCmd> ListItem) : IRequest, IPackingOrderKey;
     
     public record WrhSavePackingOrderItemCmd(
@@ -27,11 +28,14 @@ namespace btrade.application.WarehouseFreature
     {
         private readonly IPackingOrderDal _packingOrderDal;
         private readonly IPackingOrderItemDal _packingOrderItemDal;
+        private readonly IPackingOrderDepoDal _packingOrderDepoDal;
 
-        public WrhSavePackingOrderCmdHandler(IPackingOrderDal packingOrderDal, IPackingOrderItemDal packingOrderItemDal)
+        public WrhSavePackingOrderCmdHandler(IPackingOrderDal packingOrderDal, IPackingOrderItemDal packingOrderItemDal, 
+            IPackingOrderDepoDal packingOrderDepoDal)
         {
             _packingOrderDal = packingOrderDal;
             _packingOrderItemDal = packingOrderItemDal;
+            _packingOrderDepoDal = packingOrderDepoDal;
         }
 
         public Task Handle(WrhSavePackingOrderCmd req, CancellationToken cancellationToken)
@@ -41,23 +45,38 @@ namespace btrade.application.WarehouseFreature
                 item.NoUrut, item.BrgId, item.BrgNme, item.BrgCode, item.KategoriName,
                 item.QtyBesar, item.SatBesar,
                 item.QtyKecil, item.SatKecil, item.DepoId)).ToList();
+
+            var listDepo = listItem
+                .GroupBy(x => x.DepoId)
+                .Select(g => new PackingOrderDepoModel(req.PackingOrderId, g.Key, DateTime.Now, new DateTime(3000,1,1)))
+                .ToList();
+
             var timestampNow = DateTime.Now;
             var packingOrder = new PackingOrderModel(
                 req.PackingOrderId, req.PackingOrderDate.ToDate(DateFormatEnum.YMD_HMS), 
                 req.CustomerId, req.CustomerCode, req.CustomerName, req.Alamat, req.NoTelp,
                 req.Latitude, req.Longitude, req.Accuracy,
                 req.FakturId, req.FakturCode, req.FakturDate.ToDate(DateFormatEnum.YMD_HMS), req.AdminName,
-                req.WarehouseCode, req.OfficeCode, timestampNow, new DateTime(3000,1,1),
-                listItem);
+                req.OfficeCode, listItem, listDepo);
+
 
             var packingOrderDb = _packingOrderDal.GetData(req);
-            if (packingOrderDb is not null)
-                _packingOrderDal.Update(packingOrder);
-            else
-                _packingOrderDal.Insert(packingOrder);
+            using (var trans = TransHelper.NewScope())
+            {
 
-            _packingOrderItemDal.Delete(req);
-            _packingOrderItemDal.Insert(listItem);
+                if (packingOrderDb is not null)
+                    _packingOrderDal.Update(packingOrder);
+                else
+                    _packingOrderDal.Insert(packingOrder);
+
+                _packingOrderItemDal.Delete(req);
+                _packingOrderItemDal.Insert(listItem);
+
+                _packingOrderDepoDal.Delete(req);
+                _packingOrderDepoDal.Insert(listDepo);
+                trans.Complete();
+            }
+
 
             return Task.CompletedTask;
         }
