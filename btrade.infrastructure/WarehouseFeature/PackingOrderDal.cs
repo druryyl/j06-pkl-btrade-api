@@ -4,7 +4,6 @@ using btrade.infrastructure.Helpers;
 using Dapper;
 using Microsoft.Extensions.Options;
 using Nuna.Lib.DataAccessHelper;
-using Nuna.Lib.ValidationHelper;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -147,7 +146,7 @@ public class PackingOrderDal : IPackingOrderDal
         return conn.ReadSingle<PackingOrderModel>(sql, dp);
     }
 
-    public IEnumerable<PackingOrderModel> ListData(DateTime timeStamp, string depoId)
+    public IEnumerable<PackingOrderView> ListData(DateTime timeStamp, string depoId)
     {
         const string sql = @"
             SELECT TOP 500
@@ -155,16 +154,21 @@ public class PackingOrderDal : IPackingOrderDal
                 aa.CustomerId, aa.CustomerCode, aa.CustomerName, aa.Alamat, aa.NoTelp,
                 aa.Latitude, aa.Longitude, aa.Accuracy,
                 aa.FakturId, aa.FakturCode, aa.FakturDate, aa.AdminName,
-                aa.WarehouseDesc, aa.OfficeCode
-            FROM BTRADE_PackingOrder
-            WHERE UpdateTimestamp >= @Timestamp 
-            ORDER BY PackingOrderId ASC    
+                aa.WarehouseDesc, aa.OfficeCode, bb.UpdateTimestamp
+            FROM 
+                BTRADE_PackingOrder aa
+                INNER JOIN BTRADE_PackingOrderDepo bb ON aa.PackingOrderId = bb.PackingOrderId
+            WHERE 
+                bb.UpdateTimestamp >= @Timestamp 
+                AND bb.DepoId = @DepoId
+            ORDER BY bb.UpdateTimestamp ASC
             ";
 
         var dp = new DynamicParameters();
         dp.AddParam("@Timestamp", timeStamp, SqlDbType.DateTime);
+        dp.AddParam("@DepoId", depoId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
-        return conn.Read<PackingOrderModel>(sql, dp);
+        return conn.Read<PackingOrderView>(sql, dp);
     }
 }

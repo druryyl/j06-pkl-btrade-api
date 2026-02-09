@@ -11,7 +11,9 @@ namespace btrade.application.WarehouseFreature
     public interface IPackingOrderDepoDal :
         IInsertBulk<PackingOrderDepoModel>,
         IDelete<IPackingOrderKey>,
-        IListData<PackingOrderDepoModel, IPackingOrderKey>
+        IUpdate<PackingOrderDepoModel>,
+        IListData<PackingOrderDepoModel, IPackingOrderKey>,
+        IListData<PackingOrderDepoModel, DateTime, string>
     {
     }
 }

@@ -2,11 +2,6 @@
 using MediatR;
 using Nuna.Lib.TransactionHelper;
 using Nuna.Lib.ValidationHelper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace btrade.application.WarehouseFreature
 {
@@ -59,7 +54,6 @@ namespace btrade.application.WarehouseFreature
                 req.FakturId, req.FakturCode, req.FakturDate.ToDate(DateFormatEnum.YMD_HMS), req.AdminName,
                 req.OfficeCode, listItem, listDepo);
 
-
             var packingOrderDb = _packingOrderDal.GetData(req);
             using (var trans = TransHelper.NewScope())
             {
@@ -76,7 +70,6 @@ namespace btrade.application.WarehouseFreature
                 _packingOrderDepoDal.Insert(listDepo);
                 trans.Complete();
             }
-
 
             return Task.CompletedTask;
         }

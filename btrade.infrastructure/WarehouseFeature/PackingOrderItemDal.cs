@@ -77,4 +77,30 @@ public class PackingOrderItemDal : IPackingOrderItemDal
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return conn.Read<PackingOrderItemModel>(sql, dp);
     }
+
+    public IEnumerable<PackingOrderItemModel> ListData(DateTime updateTimestamp, string depoId)
+    {
+        const string sql = @"
+            SELECT
+                aa.PackingOrderId, aa.NoUrut,
+                aa.BrgId, aa.BrgCode, aa.BrgName, aa.KategoriName,
+                aa.QtyBesar, aa.SatBesar,
+                aa.QtyKecil, aa.SatKecil, aa.DepoId
+            FROM 
+                BTRADE_PackingOrderItem aa
+                INNER JOIN BTRADE_PackingOrderDepo bb 
+                    ON aa.PackingOrderId = bb.PackingOrderId  
+                    AND bb.DepoId = @DepoId
+            WHERE 
+                bb.UpdateTimestamp >= @Timestamp 
+                AND bb.DepoId = @DepoId    
+            ";
+
+        var dp = new DynamicParameters();
+        dp.AddParam("@Timestamp", updateTimestamp, SqlDbType.DateTime);
+        dp.AddParam("@DepoId", depoId, SqlDbType.VarChar);
+
+        using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
+        return conn.Read<PackingOrderItemModel>(sql, dp);
+    }
 }

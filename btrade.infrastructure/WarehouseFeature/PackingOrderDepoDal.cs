@@ -35,6 +35,23 @@ public class PackingOrderDepoDal : IPackingOrderDepoDal
             bcp.WriteToServer(fetched.AsDataTable());
         }
     }
+    public void Update(PackingOrderDepoModel model)
+    {
+        const string sql = @"
+            UPDATE BTRADE_PackingOrderDepo
+            SET 
+                DownloadTimestamp = @DownloadTimestamp
+            WHERE 
+                PackingOrderId = @PackingOrderId
+                AND DepoId = @DepoId
+            ";  
+        var dp = new DynamicParameters();
+        dp.AddParam("@PackingOrderId", model.PackingOrderId, SqlDbType.VarChar);
+        dp.AddParam("@DepoId", model.DepoId, SqlDbType.VarChar);
+        dp.AddParam("@DownloadTimestamp", model.DownloadTimestamp, SqlDbType.DateTime);
+        using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
+        conn.Execute(sql, dp);
+    }
 
     public void Delete(IPackingOrderKey key)
     {
@@ -67,4 +84,28 @@ public class PackingOrderDepoDal : IPackingOrderDepoDal
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return conn.Read<PackingOrderDepoModel>(sql, dp);
     }
+
+    public IEnumerable<PackingOrderDepoModel> ListData(DateTime updateTimestamp, string depoId)
+    {
+        const string sql = @"
+            SELECT
+                aa.PackingOrderId, aa.DepoId,
+                aa.UpdateTimestamp, aa.DownloadTimestamp  
+            FROM 
+                BTRADE_PackingOrderDepo aa
+                INNER JOIN BTRADE_PackingOrder bb ON aa.PackingOrderId = bb.PackingOrderId
+                INNER JOIN BTRADE_PackingOrderDepo cc ON bb.PackingOrderId = cc.PackingOrderId 
+            WHERE 
+                cc.UpdateTimestamp >= @Timestamp
+                AND cc.DepoId = @DepoId
+            ";
+
+        var dp = new DynamicParameters();
+        dp.AddParam("@Timestamp", updateTimestamp, SqlDbType.DateTime);
+        dp.AddParam("@DepoId", depoId, SqlDbType.VarChar);
+
+        using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
+        return conn.Read<PackingOrderDepoModel>(sql, dp);
+    }
+
 }
