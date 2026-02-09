@@ -1,12 +1,6 @@
 ﻿using btrade.domain.SalesFeature;
-using btrade.domain.SalesFeature;
 using Nuna.Lib.DataAccessHelper;
 using Nuna.Lib.ValidationHelper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace btrade.application.Contract
 {

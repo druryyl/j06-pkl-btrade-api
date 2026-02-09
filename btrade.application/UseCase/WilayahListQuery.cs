@@ -1,12 +1,6 @@
 ﻿using btrade.application.Contract;
 using btrade.domain.SalesFeature;
-using btrade.domain.SalesFeature;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace btrade.application.UseCase
 {

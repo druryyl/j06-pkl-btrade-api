@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace btrade.application.WarehouseFreature
 {
-    public interface IPackingOrderItemDal :
-        IInsertBulk<PackingOrderItemModel>,
+    public interface IPackingOrderDepoDal :
+        IInsertBulk<PackingOrderDepoModel>,
         IDelete<IPackingOrderKey>,
-        IListData<PackingOrderItemModel, IPackingOrderKey>,
-        IListData<PackingOrderItemModel, DateTime, string>
+        IUpdate<PackingOrderDepoModel>,
+        IListData<PackingOrderDepoModel, IPackingOrderKey>,
+        IListData<PackingOrderDepoModel, DateTime, string>
     {
     }
 }
