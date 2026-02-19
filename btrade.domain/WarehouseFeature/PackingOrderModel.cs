@@ -15,8 +15,8 @@ namespace btrade.domain.WarehouseFeature
         public PackingOrderModel(string packingOrderId, DateTime packingOrderDate, 
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             double latitude, double longitude, double accuracy,
-            string fakturId, string fakturCode, DateTime fakturDate, string adminName, 
-            string officeCode, 
+            string fakturId, string fakturCode, DateTime fakturDate, string adminName, decimal grandTotal,
+            string driverId, string driverName, string officeCode, 
             IEnumerable<PackingOrderItemModel> listItem,
             IEnumerable<PackingOrderDepoModel> listDepo)
         {
@@ -36,7 +36,10 @@ namespace btrade.domain.WarehouseFeature
             FakturCode = fakturCode;
             FakturDate = fakturDate;
             AdminName = adminName;
+            GrandTotal = grandTotal;
 
+            DriverId = driverId;
+            DriverName = driverName;
             OfficeCode = officeCode;
 
             _listItem = listItem.ToList();
@@ -48,8 +51,8 @@ namespace btrade.domain.WarehouseFeature
         public PackingOrderModel(string packingOrderId, DateTime packingOrderDate,
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             double latitude, double longitude, double accuracy,
-            string fakturId, string fakturCode, DateTime fakturDate, string adminName,
-            string warehouseDesc, string officeCode)
+            string fakturId, string fakturCode, DateTime fakturDate, string adminName, decimal grandTotal,
+            string driverId, string driverName, string warehouseDesc, string officeCode)
         {
             PackingOrderId = packingOrderId;
             PackingOrderDate = packingOrderDate;
@@ -67,7 +70,10 @@ namespace btrade.domain.WarehouseFeature
             FakturCode = fakturCode;
             FakturDate = fakturDate;
             AdminName = adminName;
+            GrandTotal = grandTotal;
 
+            DriverId = driverId;
+            DriverName = driverName;
             WarehouseDesc = warehouseDesc;
             OfficeCode = officeCode;
             _listItem = new List<PackingOrderItemModel>();
@@ -90,7 +96,10 @@ namespace btrade.domain.WarehouseFeature
         public string FakturCode { get; private set; }
         public DateTime FakturDate { get; private set; }
         public string AdminName { get; private set; }
+        public decimal GrandTotal { get; private set; }
 
+        public string DriverId { get; private set; }
+        public string DriverName { get; private set; }
         public string WarehouseDesc { get; private set; }
         public string OfficeCode { get; private set; }
 

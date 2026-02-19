@@ -24,14 +24,14 @@ public class PackingOrderDal : IPackingOrderDal
                 PackingOrderId, PackingOrderDate,
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
                 Latitude, Longitude, Accuracy,
-                FakturId, FakturCode, FakturDate, AdminName,
-                WarehouseDesc, OfficeCode)
+                FakturId, FakturCode, FakturDate, AdminName, GrandTotal,
+                DriverId, DriverName, WarehouseDesc, OfficeCode)
             VALUES(
                 @PackingOrderId, @PackingOrderDate, 
                 @CustomerId, @CustomerCode, @CustomerName, @Alamat, @NoTelp,
                 @Latitude, @Longitude, @Accuracy,
-                @FakturId, @FakturCode, @FakturDate, @AdminName,
-                @WarehouseDesc, @OfficeCode)
+                @FakturId, @FakturCode, @FakturDate, @AdminName, @GrandTotal,
+                @DriverId, @DriverName, @WarehouseDesc, @OfficeCode)
             ";
 
         var dp = new DynamicParameters();
@@ -51,6 +51,10 @@ public class PackingOrderDal : IPackingOrderDal
         dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);
         dp.AddParam("@FakturDate", model.FakturDate, SqlDbType.DateTime);
         dp.AddParam("@AdminName", model.AdminName, SqlDbType.VarChar);
+        dp.AddParam("@GrandTotal", model.GrandTotal, SqlDbType.Decimal);
+
+        dp.AddParam("@DriverId", model.DriverId, SqlDbType.VarChar);
+        dp.AddParam("@DriverName", model.DriverName, SqlDbType.VarChar);
 
         dp.AddParam("@WarehouseDesc", model.WarehouseDesc, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
@@ -79,6 +83,10 @@ public class PackingOrderDal : IPackingOrderDal
                 FakturCode = @FakturCode,
                 FakturDate = @FakturDate,
                 AdminName = @AdminName,
+                GrandTotal = @GrandTotal,
+
+                DriverId = @DriverId,
+                DriverName = @DriverName,
 
                 WarehouseDesc = @WarehouseDesc,
                 OfficeCode = @OfficeCode
@@ -104,6 +112,10 @@ public class PackingOrderDal : IPackingOrderDal
         dp.AddParam("@FakturCode", model.FakturCode, SqlDbType.VarChar);
         dp.AddParam("@FakturDate", model.FakturDate, SqlDbType.DateTime);
         dp.AddParam("@AdminName", model.AdminName, SqlDbType.VarChar);
+        dp.AddParam("@GrandTotal", model.GrandTotal, SqlDbType.Decimal);
+
+        dp.AddParam("@DriverId", model.DriverId, SqlDbType.VarChar);
+        dp.AddParam("@DriverName", model.DriverName, SqlDbType.VarChar);
 
         dp.AddParam("@WarehouseDesc", model.WarehouseDesc, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
@@ -133,8 +145,8 @@ public class PackingOrderDal : IPackingOrderDal
                 PackingOrderId, PackingOrderDate, 
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
                 Latitude, Longitude, Accuracy,
-                FakturId, FakturCode, FakturDate, AdminName,
-                WarehouseDesc, OfficeCode
+                FakturId, FakturCode, FakturDate, AdminName, GrandTotal,
+                DriverId, DriverName, WarehouseDesc, OfficeCode
             FROM BTRADE_PackingOrder
             WHERE PackingOrderId = @PackingOrderId
             ";
@@ -153,8 +165,8 @@ public class PackingOrderDal : IPackingOrderDal
                 aa.PackingOrderId, aa.PackingOrderDate, 
                 aa.CustomerId, aa.CustomerCode, aa.CustomerName, aa.Alamat, aa.NoTelp,
                 aa.Latitude, aa.Longitude, aa.Accuracy,
-                aa.FakturId, aa.FakturCode, aa.FakturDate, aa.AdminName,
-                aa.WarehouseDesc, aa.OfficeCode, bb.UpdateTimestamp
+                aa.FakturId, aa.FakturCode, aa.FakturDate, aa.AdminName, aa.GrandTotal,
+                aa.DriverId, aa.DriverName, aa.WarehouseDesc, aa.OfficeCode, bb.UpdateTimestamp
             FROM 
                 BTRADE_PackingOrder aa
                 INNER JOIN BTRADE_PackingOrderDepo bb ON aa.PackingOrderId = bb.PackingOrderId

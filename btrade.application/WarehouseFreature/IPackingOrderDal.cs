@@ -23,8 +23,8 @@ namespace btrade.application.WarehouseFreature
         public PackingOrderView(string packingOrderId, DateTime packingOrderDate, 
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             double latitude, double longitude, double accuracy, 
-            string fakturId, string fakturCode, DateTime fakturDate, string adminName, 
-            string warehouseDesc, string officeCode, DateTime updateTimestamp)
+            string fakturId, string fakturCode, DateTime fakturDate, string adminName, decimal grandTotal,
+            string driverId, string driverName, string warehouseDesc, string officeCode, DateTime updateTimestamp)
         {
             PackingOrderId = packingOrderId;
             PackingOrderDate = packingOrderDate;
@@ -40,6 +40,10 @@ namespace btrade.application.WarehouseFreature
             FakturCode = fakturCode;
             FakturDate = fakturDate;
             AdminName = adminName;
+            GrandTotal = grandTotal;
+
+            DriverId = driverId;
+            DriverName = driverName;
             WarehouseDesc = warehouseDesc;
             OfficeCode = officeCode;
             UpdateTimestamp = updateTimestamp;
@@ -61,7 +65,10 @@ namespace btrade.application.WarehouseFreature
         public string FakturCode { get; private set; }
         public DateTime FakturDate { get; private set; }
         public string AdminName { get; private set; }
+        public decimal GrandTotal { get; private set; }
 
+        public string DriverId { get; private set; }
+        public string DriverName { get; private set; }
         public string WarehouseDesc { get; private set; }
         public string OfficeCode { get; private set; }
         public DateTime UpdateTimestamp { get; private set; }

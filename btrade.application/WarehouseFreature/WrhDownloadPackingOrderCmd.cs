@@ -3,7 +3,7 @@ using MediatR;
 
 namespace btrade.application.WarehouseFreature
 {
-    public record WrhDownloadPackingOrderCmd(string StartTimestamp, string DepoId, int pageSize)
+    public record WrhDownloadPackingOrderCmd(string StartTimestamp, string depoId, int pageSize)
         : IRequest<WrhDownloadPackingOrderResp>;
     public record WrhDownloadPackingOrderResp(
         string LastTimestamp,
@@ -12,8 +12,8 @@ namespace btrade.application.WarehouseFreature
         string PackingOrderId, string PackingOrderDate,
         string CustomerId, string CustomerCode, string CustomerName, string Alamat, string NoTelp,
         double Latitude, double Longitude, double Accuracy,
-        string FakturId, string FakturCode, string FakturDate, string AdminName,
-        string WarehouseDesc, string OfficeCode,
+        string FakturId, string FakturCode, string FakturDate, string AdminName, decimal GrandTotal,
+        string DriverId, string DriverName, string WarehouseDesc, string OfficeCode,
         IEnumerable<WrhDownloadPackingOrderRespDtl> ListItem);
     public record WrhDownloadPackingOrderRespDtl(
         int NoUrut, string BrgId, string BrgCode, string BrgNme, string KategoriName, string SupplierName,
@@ -38,16 +38,16 @@ namespace btrade.application.WarehouseFreature
         {
             var timeStamp = DateTime.Parse(request.StartTimestamp);
             var listHdrView = _packingOrderDal
-                .ListData(timeStamp, request.DepoId)?.ToList()
+                .ListData(timeStamp, request.depoId)?.ToList()
                 ?? new List<PackingOrderView>();
             listHdrView = listHdrView
                 .OrderBy(x => x.UpdateTimestamp)
                 .Take(request.pageSize)
                 .ToList();
 
-            var listItem = _packingOrderItemDal.ListData(timeStamp, request.DepoId)?.ToList()
+            var listItem = _packingOrderItemDal.ListData(timeStamp, request.depoId)?.ToList()
                 ?? new List<PackingOrderItemModel>();
-            var listDepo = _packingOrderDepoDal.ListData(timeStamp, request.DepoId)?.ToList()
+            var listDepo = _packingOrderDepoDal.ListData(timeStamp, request.depoId)?.ToList()
                 ?? new List<PackingOrderDepoModel>();
 
             var listHdr = listHdrView
@@ -66,6 +66,9 @@ namespace btrade.application.WarehouseFreature
                     x.FakturCode,
                     x.FakturDate,
                     x.AdminName,
+                    x.GrandTotal, 
+                    x.DriverId,
+                    x.DriverName,
                     x.OfficeCode,
                     listItem.Where(y => y.PackingOrderId == x.PackingOrderId),
                     listDepo.Where(z => z.PackingOrderId == x.PackingOrderId)
@@ -74,7 +77,7 @@ namespace btrade.application.WarehouseFreature
 
             foreach (var hdr in listHdr)
             {
-                hdr.SetDownloadTimestamp(DateTime.Now, request.DepoId);
+                hdr.SetDownloadTimestamp(DateTime.Now, request.depoId);
             }
 
             var result = listHdr
@@ -93,6 +96,9 @@ namespace btrade.application.WarehouseFreature
                     x.FakturCode,
                     x.FakturDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     x.AdminName,
+                    x.GrandTotal,
+                    x.DriverId,
+                    x.DriverName,
                     x.WarehouseDesc,
                     x.OfficeCode,
                     x.ListItem.Select(i => new WrhDownloadPackingOrderRespDtl(
@@ -111,7 +117,7 @@ namespace btrade.application.WarehouseFreature
                 ));
 
             var listDepoToUpdate = listDepo
-                .Where(x => x.DepoId == request.DepoId)
+                .Where(x => x.DepoId == request.depoId)
                 .ToList();
             foreach (var depo in listDepoToUpdate)
             {

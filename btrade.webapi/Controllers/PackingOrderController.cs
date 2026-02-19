@@ -31,5 +31,12 @@ namespace btrade.webapi.Controllers
             await _mediator.Send(cmd);
             return Ok(new JSendOk("Done"));
         }
+        [HttpPost]
+        [Route("bulk")]
+        public async Task<IActionResult> BulkUpload(WrhBulkUploadPackingOrderCmd cmd)
+        {
+            await _mediator.Send(cmd);
+            return Ok(new JSendOk("Done"));
+        }
     }
 }
