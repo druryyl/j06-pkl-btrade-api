@@ -24,7 +24,7 @@ namespace btrade.application.WarehouseFreature
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             double latitude, double longitude, double accuracy, 
             string fakturId, string fakturCode, DateTime fakturDate, string adminName, decimal grandTotal,
-            string driverId, string driverName, string warehouseDesc, string officeCode, DateTime updateTimestamp)
+            string driverId, string driverName, string warehouseDesc, string officeCode, DateTime updateTimestamp, string note)
         {
             PackingOrderId = packingOrderId;
             PackingOrderDate = packingOrderDate;
@@ -47,6 +47,8 @@ namespace btrade.application.WarehouseFreature
             WarehouseDesc = warehouseDesc;
             OfficeCode = officeCode;
             UpdateTimestamp = updateTimestamp;
+            Note = note;
+
         }
 
         public string PackingOrderId { get; private set; }
@@ -72,5 +74,6 @@ namespace btrade.application.WarehouseFreature
         public string WarehouseDesc { get; private set; }
         public string OfficeCode { get; private set; }
         public DateTime UpdateTimestamp { get; private set; }
+        public string Note { get; private set; }
     }
 }

@@ -25,13 +25,13 @@ public class PackingOrderDal : IPackingOrderDal
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
                 Latitude, Longitude, Accuracy,
                 FakturId, FakturCode, FakturDate, AdminName, GrandTotal,
-                DriverId, DriverName, WarehouseDesc, OfficeCode)
+                DriverId, DriverName, WarehouseDesc, OfficeCode, Note)
             VALUES(
                 @PackingOrderId, @PackingOrderDate, 
                 @CustomerId, @CustomerCode, @CustomerName, @Alamat, @NoTelp,
                 @Latitude, @Longitude, @Accuracy,
                 @FakturId, @FakturCode, @FakturDate, @AdminName, @GrandTotal,
-                @DriverId, @DriverName, @WarehouseDesc, @OfficeCode)
+                @DriverId, @DriverName, @WarehouseDesc, @OfficeCode, @Note)
             ";
 
         var dp = new DynamicParameters();
@@ -58,6 +58,7 @@ public class PackingOrderDal : IPackingOrderDal
 
         dp.AddParam("@WarehouseDesc", model.WarehouseDesc, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
+        dp.AddParam("@Note", model.Note, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -89,7 +90,8 @@ public class PackingOrderDal : IPackingOrderDal
                 DriverName = @DriverName,
 
                 WarehouseDesc = @WarehouseDesc,
-                OfficeCode = @OfficeCode
+                OfficeCode = @OfficeCode,
+                Note = @Note
                 
             WHERE
                 PackingOrderId = @PackingOrderId
@@ -119,6 +121,7 @@ public class PackingOrderDal : IPackingOrderDal
 
         dp.AddParam("@WarehouseDesc", model.WarehouseDesc, SqlDbType.VarChar);
         dp.AddParam("@OfficeCode", model.OfficeCode, SqlDbType.VarChar);
+        dp.AddParam("@Note", model.Note, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         conn.Execute(sql, dp);
@@ -146,7 +149,7 @@ public class PackingOrderDal : IPackingOrderDal
                 CustomerId, CustomerCode, CustomerName, Alamat, NoTelp,
                 Latitude, Longitude, Accuracy,
                 FakturId, FakturCode, FakturDate, AdminName, GrandTotal,
-                DriverId, DriverName, WarehouseDesc, OfficeCode
+                DriverId, DriverName, WarehouseDesc, OfficeCode, Note
             FROM BTRADE_PackingOrder
             WHERE PackingOrderId = @PackingOrderId
             ";
@@ -166,7 +169,7 @@ public class PackingOrderDal : IPackingOrderDal
                 aa.CustomerId, aa.CustomerCode, aa.CustomerName, aa.Alamat, aa.NoTelp,
                 aa.Latitude, aa.Longitude, aa.Accuracy,
                 aa.FakturId, aa.FakturCode, aa.FakturDate, aa.AdminName, aa.GrandTotal,
-                aa.DriverId, aa.DriverName, aa.WarehouseDesc, aa.OfficeCode, bb.UpdateTimestamp
+                aa.DriverId, aa.DriverName, aa.WarehouseDesc, aa.OfficeCode, bb.UpdateTimestamp, Note
             FROM 
                 BTRADE_PackingOrder aa
                 INNER JOIN BTRADE_PackingOrderDepo bb ON aa.PackingOrderId = bb.PackingOrderId

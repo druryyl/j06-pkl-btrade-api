@@ -13,7 +13,7 @@ namespace btrade.application.WarehouseFreature
         string CustomerId, string CustomerCode, string CustomerName, string Alamat, string NoTelp,
         double Latitude, double Longitude, double Accuracy,
         string FakturId, string FakturCode, string FakturDate, string AdminName, decimal GrandTotal,
-        string DriverId, string DriverName, string WarehouseDesc, string OfficeCode,
+        string DriverId, string DriverName, string WarehouseDesc, string OfficeCode, string Note,
         IEnumerable<WrhDownloadPackingOrderRespDtl> ListItem);
     public record WrhDownloadPackingOrderRespDtl(
         int NoUrut, string BrgId, string BrgCode, string BrgNme, string KategoriName, string SupplierName,
@@ -70,6 +70,7 @@ namespace btrade.application.WarehouseFreature
                     x.DriverId,
                     x.DriverName,
                     x.OfficeCode,
+                    x.Note,
                     listItem.Where(y => y.PackingOrderId == x.PackingOrderId),
                     listDepo.Where(z => z.PackingOrderId == x.PackingOrderId)
                 ))
@@ -101,6 +102,7 @@ namespace btrade.application.WarehouseFreature
                     x.DriverName,
                     x.WarehouseDesc,
                     x.OfficeCode,
+                    x.Note,
                     x.ListItem.Select(i => new WrhDownloadPackingOrderRespDtl(
                         i.NoUrut,
                         i.BrgId,

@@ -10,7 +10,7 @@ namespace btrade.application.WarehouseFreature
         string CustomerId, string CustomerCode, string CustomerName, string Alamat, string NoTelp,
         double Latitude, double Longitude, double Accuracy,
         string FakturId, string FakturCode, string FakturDate, string AdminName, decimal GrandTotal,
-        string DriverId, string DriverName, string OfficeCode,
+        string DriverId, string DriverName, string OfficeCode, string Note,
         IEnumerable<WrhSavePackingOrderItemCmd> ListItem) : IRequest, IPackingOrderKey;
     
     public record WrhSavePackingOrderItemCmd(
@@ -53,7 +53,7 @@ namespace btrade.application.WarehouseFreature
                 req.Latitude, req.Longitude, req.Accuracy,
                 req.FakturId, req.FakturCode, req.FakturDate.ToDate(DateFormatEnum.YMD_HMS), req.AdminName, req.GrandTotal,
                 req.DriverId, req.DriverName,
-                req.OfficeCode, listItem, listDepo);
+                req.OfficeCode, req.Note, listItem, listDepo);
 
             var packingOrderDb = _packingOrderDal.GetData(req);
             using (var trans = TransHelper.NewScope())

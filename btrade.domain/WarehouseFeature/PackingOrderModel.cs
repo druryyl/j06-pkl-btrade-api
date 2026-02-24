@@ -16,7 +16,7 @@ namespace btrade.domain.WarehouseFeature
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             double latitude, double longitude, double accuracy,
             string fakturId, string fakturCode, DateTime fakturDate, string adminName, decimal grandTotal,
-            string driverId, string driverName, string officeCode, 
+            string driverId, string driverName, string officeCode, string note,
             IEnumerable<PackingOrderItemModel> listItem,
             IEnumerable<PackingOrderDepoModel> listDepo)
         {
@@ -41,6 +41,7 @@ namespace btrade.domain.WarehouseFeature
             DriverId = driverId;
             DriverName = driverName;
             OfficeCode = officeCode;
+            Note = note;
 
             _listItem = listItem.ToList();
             _listDepo = listDepo.ToList();
@@ -52,7 +53,7 @@ namespace btrade.domain.WarehouseFeature
             string customerId, string customerCode, string customerName, string alamat, string noTelp,
             double latitude, double longitude, double accuracy,
             string fakturId, string fakturCode, DateTime fakturDate, string adminName, decimal grandTotal,
-            string driverId, string driverName, string warehouseDesc, string officeCode)
+            string driverId, string driverName, string warehouseDesc, string officeCode, string note)
         {
             PackingOrderId = packingOrderId;
             PackingOrderDate = packingOrderDate;
@@ -76,6 +77,7 @@ namespace btrade.domain.WarehouseFeature
             DriverName = driverName;
             WarehouseDesc = warehouseDesc;
             OfficeCode = officeCode;
+            Note = note;
             _listItem = new List<PackingOrderItemModel>();
             _listDepo = new List<PackingOrderDepoModel>();
         }
@@ -102,6 +104,7 @@ namespace btrade.domain.WarehouseFeature
         public string DriverName { get; private set; }
         public string WarehouseDesc { get; private set; }
         public string OfficeCode { get; private set; }
+        public string Note { get; private set; }
 
         public IEnumerable<PackingOrderItemModel> ListItem => _listItem;
         public IEnumerable<PackingOrderDepoModel> ListDepo => _listDepo;

@@ -17,7 +17,7 @@ namespace btrade.application.WarehouseFreature
         double Latitude, double Longitude, double Accuracy,
         string FakturId, string FakturCode, string FakturDate, string AdminName, decimal GrandTotal,
         string DriverId, string DriverName,
-        string OfficeCode,
+        string OfficeCode, string Note,
         IEnumerable<WrhBulkUploadPackingOrderItemBrgCmd> ListItem);
 
     public record WrhBulkUploadPackingOrderItemBrgCmd(
@@ -64,7 +64,7 @@ namespace btrade.application.WarehouseFreature
                         hdr.Latitude, hdr.Longitude, hdr.Accuracy,
                         hdr.FakturId, hdr.FakturCode, hdr.FakturDate.ToDate(DateFormatEnum.YMD_HMS), hdr.AdminName, hdr.GrandTotal,
                         hdr.DriverId, hdr.DriverName,
-                        hdr.OfficeCode, listItem, listDepo);
+                        hdr.OfficeCode, hdr.Note, listItem, listDepo);
 
                     var packingOrderDb = _packingOrderDal.GetData(packingOrder);
                     if (packingOrderDb is not null)
