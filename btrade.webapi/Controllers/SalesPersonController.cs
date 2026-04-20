@@ -31,4 +31,13 @@ public class SalesPersonController : ControllerBase
         var response = await _mediator.Send(cmd);
         return Ok(new JSendOk(response));
     }
+
+    [HttpGet]
+    [Route("exists")]
+    public async Task<IActionResult> IsValidEmail([FromQuery] string email)
+    {
+        var query = new IsValidSalesEmailQuery(email);
+        var response = await _mediator.Send(query);
+        return Ok(new JSendOk(response));
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using btrade.domain.SalesFeature;
 using Nuna.Lib.DataAccessHelper;
+using Nuna.Lib.PatternHelper;
 
 namespace btrade.application.Contract;
 
@@ -11,4 +12,5 @@ public interface ISalesPersonDal :
     IListDataMayBe<SalesPersonType, IServerId>
 {
     void Delete(IServerId server);
+    MayBe<SalesPersonType> GetByEmail(string email);
 }

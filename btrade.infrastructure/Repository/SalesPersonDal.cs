@@ -23,14 +23,15 @@ public class SalesPersonDal : ISalesPersonDal
     {
         const string sql = @"
             INSERT INTO BTRADE_SalesPerson(
-                SalesPersonId, SalesPersonCode, SalesPersonName, ServerId
+                SalesPersonId, SalesPersonCode, SalesPersonName, Email, ServerId
             ) VALUES (
-                @SalesPersonId, @SalesPersonCode, @SalesPersonName, @ServerId)";
+                @SalesPersonId, @SalesPersonCode, @SalesPersonName, @Email, @ServerId)";
 
         var dp = new DynamicParameters();
         dp.AddParam("@SalesPersonId", model.SalesPersonId, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonCode", model.SalesPersonCode, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonName", model.SalesPersonName, SqlDbType.VarChar);
+        dp.AddParam("@Email", model.Email, SqlDbType.VarChar);
         dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
@@ -45,6 +46,8 @@ public class SalesPersonDal : ISalesPersonDal
             SET
                 SalesPersonCode = @SalesPersonCode,
                 SalesPersonName = @SalesPersonName
+                ,
+                Email = @Email
             WHERE
                 SalesPersonId = @SalesPersonId
                 AND ServerId = @ServerId";
@@ -53,6 +56,7 @@ public class SalesPersonDal : ISalesPersonDal
         dp.AddParam("@SalesPersonId", model.SalesPersonId, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonCode", model.SalesPersonCode, SqlDbType.VarChar);
         dp.AddParam("@SalesPersonName", model.SalesPersonName, SqlDbType.VarChar);
+        dp.AddParam("@Email", model.Email, SqlDbType.VarChar);
         dp.AddParam("@ServerId", model.ServerId, SqlDbType.VarChar);
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
@@ -95,7 +99,7 @@ public class SalesPersonDal : ISalesPersonDal
     {
         const string sql = @"
             SELECT
-                SalesPersonId, SalesPersonCode, SalesPersonName
+                SalesPersonId, SalesPersonCode, SalesPersonName, Email
             FROM
                 BTRADE_SalesPerson
             WHERE
@@ -114,7 +118,7 @@ public class SalesPersonDal : ISalesPersonDal
     {
         const string sql = @"
             SELECT
-                SalesPersonId, SalesPersonCode, SalesPersonName, ServerId
+                SalesPersonId, SalesPersonCode, SalesPersonName, Email, ServerId
             FROM
                 BTRADE_SalesPerson
             WHERE
@@ -125,5 +129,22 @@ public class SalesPersonDal : ISalesPersonDal
 
         using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
         return MayBe.From(conn.Read<SalesPersonType>(sql, dp));
+    }
+
+    public MayBe<SalesPersonType> GetByEmail(string email)
+    {
+        const string sql = @"
+            SELECT
+                SalesPersonId, SalesPersonCode, SalesPersonName, Email, ServerId
+            FROM
+                BTRADE_SalesPerson
+            WHERE
+                Email = @Email";
+
+        var dp = new DynamicParameters();
+        dp.AddParam("@Email", email, SqlDbType.VarChar);
+
+        using var conn = new SqlConnection(ConnStringHelper.Get(_opt));
+        return MayBe.From(conn.ReadSingle<SalesPersonType>(sql, dp));
     }
 }

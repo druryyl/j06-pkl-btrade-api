@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace btrade.domain.SalesFeature;
 
 public record SalesPersonType(string SalesPersonId, string SalesPersonCode,
-    string SalesPersonName, string ServerId) : ISalesPersonKey;
+    string SalesPersonName, string Email, string ServerId) : ISalesPersonKey;
 
 public interface ISalesPersonKey : IServerId
 {
